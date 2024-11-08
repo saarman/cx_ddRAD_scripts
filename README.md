@@ -19,10 +19,17 @@ Port: 21
 Drag and drop from local disk.  
 /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_raw  
 
+## To unzip a .tar file (Norah completed 11/8/2024):
+```
+cd /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_raw
+tar -xvf Culex_ddRAD.tar 
+mv ./Culex2/Culex2.fastq.gz cx_ddRAD_plate2.fastq.gz
+```
+
 ## To unzip a .tar.gz file:
 ```
-tar –xvzf cx_ddRAD_plate1.tar.gz
-mv ./data/Saarman/ddRAD/ddRAD.fastq.gz ./cx_ddRAD_plate1.fastq.gz
+tar –xvzf cx_ddRAD_plate2.tar.gz
+mv ./data/Saarman/ddRAD/ddRAD.fastq.gz ./cx_ddRAD_plate2.fastq.gz
 ```
 
 ## Change permissions
