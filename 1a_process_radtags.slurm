@@ -20,27 +20,27 @@
 module load stacks/2.64
 
 # Input and output files
-in_file1="/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_raw/bee_ddRAD_plate1.fastq.gz"
-in_file2="/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_raw/bee_ddRAD_plate2.fastq.gz"
-out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_processed/"
-barcode_file1="/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_raw/barcodes_plate1_plusC.txt"
-barcode_file2="/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_raw/barcodes_plate2_plusC.txt"
+in_file1="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_raw/cx_ddRAD_plate1.fastq.gz"
+in_file2="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_raw/cx_ddRAD_plate2.fastq.gz"
+out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed/"
+barcode_file1="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_raw/barcodes_plate1_plusC.txt"
+barcode_file2="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_raw/barcodes_plate2_plusC.txt"
 
 # Function
 process_radtags -f $in_file1 -b $barcode_file1 -o $out_path \
                 -r -c -q --inline-null -e ecoRI \
                 --adapter-1 CTCTTTCCCTACACGACGCTCTTCCGATCT \
 		--filter-illumina --disable-rad-check --barcode-dist-1 2
-cp ${out_path}/process_radtags.bee_ddRAD_raw.log ${out_path}/process_radtags-%j-plate1.log
+cp ${out_path}/process_radtags.cx_ddRAD_raw.log ${out_path}/process_radtags-%j-plate1.log
 
 process_radtags -f $in_file2 -b $barcode_file2 -o $out_path \
                 -r -c -q --inline-null -e ecoRI \
                 --adapter-1 CTCTTTCCCTACACGACGCTCTTCCGATCT \
 		--filter-illumina --disable-rad-check --barcode-dist-1 2
-cp ${out_path}/process_radtags.bee_ddRAD_raw.log ${out_path}/process_radtags-%j-plate2.log
+cp ${out_path}/process_radtags.cx_ddRAD_raw.log ${out_path}/process_radtags-%j-plate2.log
 
 # Permissions
-chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD*
+chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
 
 # Explanation of parameters:
 
