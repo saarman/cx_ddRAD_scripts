@@ -1,5 +1,5 @@
-# bee_ddRAD bioinformatics steps
-Nomia population genomics with [Saarman ddRADseq protocol](https://docs.google.com/document/d/1fbrfyLTfIlvvffxJgiXUt4KfkHRMW-tx/edit?usp=sharing&ouid=111289447482543500025&rtpof=true&sd=true), Illumina NextSeq 2000 P1 300 cycles, 300 bp from forward read only, enzymes EcoRI and MspI, 350-550 bp size selection (Blue Pippin set to 460-660 bp to account for 103 bp of adaptors/primers added before size selection step).
+# cx_ddRAD bioinformatics steps
+Culex population genomics with [Saarman ddRADseq protocol](https://docs.google.com/document/d/1fbrfyLTfIlvvffxJgiXUt4KfkHRMW-tx/edit?usp=sharing&ouid=111289447482543500025&rtpof=true&sd=true), Illumina NextSeq 2000 P1 300 cycles, 150 bp paired-end reads, enzymes EcoRI and MspI, 500-1400 bp fagment size selected (Blue Pippin set to 600-1500 bp to account for 103 bp of adaptors/primers added before size selection step).
 
 ## A place to keep track of ddRAD bioinformatics steps
 
@@ -17,17 +17,17 @@ Server: notchpeak
 User: u6036559  
 Port: 21  
 Drag and drop from local disk.  
-/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_raw  
+/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_raw  
 
 ## To unzip a .tar.gz file:
 ```
-tar –xvzf bee_ddRAD_plate1.tar.gz
-mv ./data/Saarman/ddRAD/ddRAD.fastq.gz ./bee_ddRAD_plate1.fastq.gz
+tar –xvzf cx_ddRAD_plate1.tar.gz
+mv ./data/Saarman/ddRAD/ddRAD.fastq.gz ./cx_ddRAD_plate1.fastq.gz
 ```
 
 ## Change permissions
 ```
-chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD*
+chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
 ```
 
 # Submit your job
@@ -37,18 +37,18 @@ chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD*
 Before running, I need to make these files on github, and then use git to clone
 ```
 # Just once:
-cd /uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_scripts/
-git clone https://github.com/saarman/alkalibee
+cd /uufs/chpc.utah.edu/common/home/saarman-group1/ 
+git clone https://github.com/saarman/cx_ddRAD_scripts cx_ddRAD_scripts
 ```
 ***Need to run every time: Pull any changes from Github***  
 ```
-cd /uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_scripts/alkalibee/
+cd /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/
 git pull
 ```
 ***Need to run every time: Submit to slurm***
 https://www.chpc.utah.edu/documentation/software/slurm.php#usingslurm
 ```
-cd /uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_scripts/alkalibee/
+cd /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/
 sbatch 1a_process_radtags.slurm
 ```
 
@@ -60,5 +60,5 @@ squeue --me
 
 ## Change permissions (again)
 ```
-chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD*
+chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
 ```
