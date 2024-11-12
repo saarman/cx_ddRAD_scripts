@@ -1,0 +1,11 @@
+11/11/24 Trying Code 
+
+-Need to run every time: Pull any changes from Github
+cd /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/
+git pull
+
+
+* fatal: detected dubious ownership in repository at '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts'
+To add an exception for this directory, call:
+        git config --global --add safe.directory /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts
+[u1055819@frisco1 cx_ddRAD_scripts]$ 
