@@ -17,3 +17,12 @@ To add an exception for this directory, call:
 12/6/24
 
 Made file for barcodes and original IDs for each sample. Only 95 in the example, so had to add my last sample in manually (agctaaga+C	CB01-I repeated from first plate)
+
+*Using terminal on my mac? Was going to try the CHPC but that wasnt working at first, will try again. 
+Going through README file trying to git pull into Cx_ddRAD scripts directory 
+
+git pull
+fatal: detected dubious ownership in repository at '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts
