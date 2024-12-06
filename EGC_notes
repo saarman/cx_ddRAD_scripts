@@ -9,3 +9,11 @@ git pull
 To add an exception for this directory, call:
         git config --global --add safe.directory /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts
 [u1055819@frisco1 cx_ddRAD_scripts]$ 
+
+
+
+
+
+12/6/24
+
+Made file for barcodes and original IDs for each sample. Only 95 in the example, so had to add my last sample in manually (agctaaga+C	CB01-I repeated from first plate)
