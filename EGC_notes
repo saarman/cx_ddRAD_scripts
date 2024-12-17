@@ -26,3 +26,40 @@ fatal: detected dubious ownership in repository at '/uufs/chpc.utah.edu/common/h
 To add an exception for this directory, call:
 
 	git config --global --add safe.directory /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts
+
+
+12/17/2024
+cd /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/
+git pull
+
+sbatch: error: invalid partition specified: saarman-shared-np
+sbatch: error: Batch job submission failed: Invalid partition name specified
+[u1055819@frisco1 cx_ddRAD_scripts]$ scontrol show partition saarman-shared-np
+Partition saarman-shared-np not found
+
+[u1055819@frisco1 saarman-group1]$ myallocation
+Deprecation note: this program will not support the upcoming Granite cluster and beyond. Use `mychpc batch` instead.
+        You have a general allocation on kingspeak. Account: saarman, Partition: kingspeak
+        You have a general allocation on kingspeak. Account: saarman, Partition: kingspeak-shared
+        You have a general allocation on kingspeak. Account: usu-biol4750, Partition: kingspeak
+        You have a general allocation on kingspeak. Account: usu-biol4750, Partition: kingspeak-shared
+        You can use preemptable mode on kingspeak. Account: owner-guest, Partition: kingspeak-guest
+        You can use preemptable mode on kingspeak. Account: owner-guest, Partition: kingspeak-shared-guest
+        Your group saarman does not have a general allocation on notchpeak
+        You can use preemptable mode on notchpeak. Account: saarman, Partition: notchpeak-freecycle
+        You can use preemptable mode on notchpeak. Account: saarman, Partition: notchpeak-shared-freecycle
+        Your group usu-biol4750 does not have a general allocation on notchpeak
+        You can use preemptable mode on notchpeak. Account: usu-biol4750, Partition: notchpeak-freecycle
+        You can use preemptable mode on notchpeak. Account: usu-biol4750, Partition: notchpeak-shared-freecycle
+        You have a general allocation on notchpeak. Account: dtn, Partition: notchpeak-dtn
+        You have a general allocation on notchpeak. Account: notchpeak-shared-short, Partition: notchpeak-shared-short
+        You have an owner allocation on notchpeak. Account: saarman-np, Partition: saarman-np
+        You have an owner allocation on notchpeak. Account: saarman-np, Partition: saarman-shared-np
+        You can use preemptable mode on notchpeak. Account: owner-guest, Partition: notchpeak-guest
+        You can use preemptable mode on notchpeak. Account: owner-guest, Partition: notchpeak-shared-guest
+        You have a general allocation on lonepeak. Account: saarman, Partition: lonepeak
+        You have a general allocation on lonepeak. Account: saarman, Partition: lonepeak-shared
+        You have a general allocation on lonepeak. Account: usu-biol4750, Partition: lonepeak
+        You have a general allocation on lonepeak. Account: usu-biol4750, Partition: lonepeak-shared
+        You can use preemptable mode on lonepeak. Account: owner-guest, Partition: lonepeak-guest
+        You can use preemptable mode on lonepeak. Account: owner-guest, Partition: lonepeak-shared-guest
