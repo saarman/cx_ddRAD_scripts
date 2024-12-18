@@ -23,8 +23,8 @@ module load stacks/2.64
 #in_file1="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_raw/cx_ddRAD_plate1.fastq.gz"
 in_file2="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_raw/cx_ddRAD_plate2.fastq.gz"
 out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed/"
-barcode_file1="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/CBbarcode_plate2.txt"
-#barcode_file2="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/barcodes_plate2_plusC.txt"
+#barcode_file1="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/CBbarcode_plate2.txt"
+barcode_file2="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/CBbarcode_plate2.txt"
 
 # Function
 
