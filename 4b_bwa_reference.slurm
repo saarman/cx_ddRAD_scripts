@@ -17,8 +17,8 @@
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 
 # Load modules
-#module load bwa/2020_03_19
-module load bwa-mem/2.2.1
+module load bwa/2020_03_19
+#module load bwa-mem/2.2.1
 
 # Replace these variables with the actual paths and filenames
 input_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed/"
@@ -29,8 +29,8 @@ chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
 
 # Index reference
 cd $output_folder
-#bwa index -a bwtsw Cpip29_nodeb_gfill_mito.fasta
-bwa-mem2 index Cpip29_nodeb_gfill_mito.fasta
+bwa index -a bwtsw Cpip29_nodeb_gfill_mito.fasta
+#bwa-mem2 index Cpip29_nodeb_gfill_mito.fasta
 
 # Permissions
 chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
