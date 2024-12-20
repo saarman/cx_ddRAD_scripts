@@ -10,7 +10,7 @@
 #SBATCH --ntasks=24 # 32 processor core(s) total, use half = 16 or number of threads
 #SBATCH --array=1-127
 #SBATCH --job-name="bwa"
-#SBATCH --mail-user=norah.saarman@usu.edu   # email address
+#SBATCH --mail-user=emily.calhoun@usu.edu   # email address
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
