@@ -23,9 +23,9 @@ module load bwa/2020_03_19
 module load samtools/1.16
 
 # Replace these variables with the actual paths and filenames
-input_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_processed"
-output_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_bwa"
-reference_genome="/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_bwa/ref/GCF_003710045.2_USU_Nmel_1.3_genomic.fna"
+input_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed"
+output_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa"
+reference_genome="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa/ref/Cpip29_nodeb_gfill_mito.fasta"
 
 # Create a list of tasks for bwa mem
 echo -n "" > bwa-mem-2024-09-13.tasks
@@ -169,7 +169,7 @@ bwa mem -M -t 4 "/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_bwa/re
 bwa mem -M -t 4 "/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_bwa/ref/GCF_003710045.2_USU_Nmel_1.3_genomic.fna" "/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_processed/WebCoF02.fq.gz" |         samtools view -b | samtools sort --threads 4 > "/uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD_bwa/WebCoF02.bam" ;         echo "Alignment completed for WebCoF02" 
 
 # Permissions
-chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD*
+chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
 
 # Resource
 # https://catchenlab.life.illinois.edu/stacks/manual/#refmapbyhand
