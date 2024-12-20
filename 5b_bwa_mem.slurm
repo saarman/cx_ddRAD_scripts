@@ -8,7 +8,7 @@
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
-#SBATCH --mail-user=norah.saarman@usu.edu
+#SBATCH --mail-user=emily.calhoun@usu.edu
 
 # Load modules
 module load bwa/2020_03_19
