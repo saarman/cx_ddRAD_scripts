@@ -24,17 +24,18 @@ input_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed/
 output_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa/ref/"
 
 # Download reference
-cd $output_folder
-wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/710/045/GCF_003710045.2_USU_Nmel_1.3/GCF_003710045.2_USU_Nmel_1.3_genomic.fna.gz
+# cd $output_folder
+# wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/710/045/GCF_003710045.2_USU_Nmel_1.3/GCF_003710045.2_USU_Nmel_1.3_genomic.fna.gz
 
-/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa/ref/Cpip29_nodeb_gfill_mito.fasta 
+#Reference already here
+Ref="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa/ref/Cpip29_nodeb_gfill_mito.fasta" 
 
 
 # Permissions
 chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
 
-# Unzip reference
-gzip -d GCF_003710045.2_USU_Nmel_1.3_genomic.fna.gz 
+# Unzip reference if needed
+# gzip -d GCF_003710045.2_USU_Nmel_1.3_genomic.fna.gz 
 
 # Permissions
-chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/bee_ddRAD*
+chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
