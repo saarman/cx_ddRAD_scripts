@@ -63,3 +63,12 @@ Deprecation note: this program will not support the upcoming Granite cluster and
         You have a general allocation on lonepeak. Account: usu-biol4750, Partition: lonepeak-shared
         You can use preemptable mode on lonepeak. Account: owner-guest, Partition: lonepeak-guest
         You can use preemptable mode on lonepeak. Account: owner-guest, Partition: lonepeak-shared-guest
+
+
+12/18/2024
+git pull
+sbatch 1a_process_radtags.slurm
+
+12/19/24
+
+
