@@ -22,7 +22,7 @@ bam_dir="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa"
 #!/bin/bash
 
 # Output spreadsheet file
-output_spreadsheet="flagstat_results2.tsv"
+output_spreadsheet="flagstat_results.tsv"
 
 # Create a header for the TSV file
 echo -e "Sample\tTotal_Reads\tMapped_Reads" > "$output_spreadsheet"
