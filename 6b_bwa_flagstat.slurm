@@ -7,7 +7,7 @@
 #SBATCH --ntasks-per-node=40   # 20 processor core(s) per node X 2 threads per core
 #SBATCH --partition=short    # standard node(s)
 #SBATCH --job-name="bwa"
-#SBATCH --mail-user=jonathan.koch@usda.gov   # email address
+#SBATCH --mail-user=emily.calhoun@usu.edu   # email address
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
@@ -17,7 +17,7 @@ module load bwa/0.7.17
 module load samtools/1.16.1
 
 # Replace these variables with the actual paths and filenames
-bam_dir="/project/piru_hylaues/KochProjects/alkalibeepopgen/stacks_pipeline/bwa/aligned_plate2"
+bam_dir="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa"
 
 #!/bin/bash
 
