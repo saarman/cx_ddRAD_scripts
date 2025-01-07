@@ -75,4 +75,15 @@ git pull
 
 sbatch 5c
 
+1/7/25
+
+sbatch 6b_bwa - ran but gave this error 
+
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 122326 sequences (40000602 bp)...
+[M::process] read 122326 sequences (40000602 bp)...
+slurmstepd: error: *** JOB 2761373 ON notch320 CANCELLED AT 2025-01-07T12:09:22 ***
+
+*Not sure why the old job that I cancelled is effecting this one...
+
 
