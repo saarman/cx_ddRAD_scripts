@@ -20,7 +20,7 @@ module load bwa/0.7.17
 module load samtools/1.16.1
 
 # Replace these variables with the actual paths and filenames
-bam_dir="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed"
+bam_dir="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_"
 
 #!/bin/bash
 
