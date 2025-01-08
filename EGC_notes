@@ -68,15 +68,15 @@ Deprecation note: this program will not support the upcoming Granite cluster and
 12/18/2024
 git pull
 sbatch 1a_process_radtags.slurm
+slurm-2662574.out
 
 1/1/2025
 
 git pull
-
 sbatch 5c
+slurm-2761369_1.out
 
 1/7/25
-
 sbatch 6b_bwa - ran but gave this error 
 
 [M::bwa_idx_load_from_disk] read 0 ALT contigs
@@ -86,3 +86,5 @@ slurmstepd: error: *** JOB 2761373 ON notch320 CANCELLED AT 2025-01-07T12:09:22 
 
 *Not sure why the old job that I cancelled is effecting this one... going to try one more time to see if the same error happens
 
+
+slurm-2807933.out
