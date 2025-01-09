@@ -88,3 +88,10 @@ slurmstepd: error: *** JOB 2761373 ON notch320 CANCELLED AT 2025-01-07T12:09:22 
 
 
 slurm-2807933.out
+
+
+1/8/25
+Meeting with Norah - deleted unneccessary files - did not have to run 5c.. running 6b again to make sure it worked correctly
+git pull 
+sbatch 6b_bwa
+Submitted batch job 2811975
