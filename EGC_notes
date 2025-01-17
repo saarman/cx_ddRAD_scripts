@@ -85,10 +85,7 @@ sbatch 6b_bwa - ran but gave this error
 slurmstepd: error: *** JOB 2761373 ON notch320 CANCELLED AT 2025-01-07T12:09:22 ***
 
 *Not sure why the old job that I cancelled is effecting this one... going to try one more time to see if the same error happens
-
-
 slurm-2807933.out
-
 
 1/8/25
 Meeting with Norah - deleted unneccessary files - did not have to run 5c.. running 6b again to make sure it worked correctly
@@ -100,6 +97,9 @@ Success! results in flagstat_results.tsv
 
 1/13/2025
 I am unsure where to pull from to edit 6b_refmap or 7b_populations slurm scripts... i do not see anything about stacks in ours or alkali bee project
+
+1/15/2025
+
 
 
 
