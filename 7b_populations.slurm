@@ -2,12 +2,14 @@
 
 # job standard output will go to the file slurm-%j.out (where %j is the job ID)
 
+#SBATCH --partition=saarman-shared-np   
+#SBATCH --account=saarman-np
 #SBATCH --time=24:00:00   # walltime limit (HH:MM:SS)
+#SBATCH --mem=24576 # memory given in MB
 #SBATCH --nodes=1   # number of nodes
-#SBATCH --ntasks-per-node=40   # 20 processor core(s) per node X 2 threads per core
-#SBATCH --partition=short    # standard node(s)
+#SBATCH --ntasks-per-node=16   # 20 processor core(s) per node X 2 threads per core
 #SBATCH --job-name="stacks"
-#SBATCH --mail-user=jonathan.koch@usda.gov   # email address
+#SBATCH --mail-user=emily.calhoun@usu.edu   # email address
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
@@ -18,9 +20,9 @@
 module load stacks/2.64
 
 # Input and output
-out_path="/project/piru_hylaues/KochProjects/alkalibeepopgen/stacks_pipeline/populations_output_2"
-popmap="/project/piru_hylaues/KochProjects/alkalibeepopgen/popmap2/nomia_popmap_plate1_plate2"
-in_path="/project/piru_hylaues/KochProjects/alkalibeepopgen/stacks_pipeline/refmap_output13"
+out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output"
+popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_dummyplate2_filtered.txt"
+in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_stacks_filtered"
 
 # Code
 populations -P $in_path --popmap $popmap -O $out_path -p 1 -r 0.25 -t 8 --write-random-snp --vcf --plink 
