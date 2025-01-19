@@ -98,8 +98,23 @@ Success! results in flagstat_results.tsv
 1/13/2025
 I am unsure where to pull from to edit 6b_refmap or 7b_populations slurm scripts... i do not see anything about stacks in ours or alkali bee project
 
-1/15/2025
+1/17/2025
+Meeting with Norah - confirmed what to do with 6b_refmap -> created refmap dummy file, checked that stacks module was available
+
+Tried to run 6b_refmap 
+Submitted batch job 2863149
+
+Parsed population map: 96 files in 1 population and 1 group.
+Found 96 sample file(s).
+
+Calling variants, genotypes and haplotypes...
+  /uufs/chpc.utah.edu/sys/installdir/r8/stacks/2.64/bin/gstacks -I /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa/ -M /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_dummyplate2.txt -O /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_stacks
 
 
+ref_map.pl: Aborted because the last command failed (1); see ref_map.log file.
+Last command executed by ref_map.pl was:
+  /uufs/chpc.utah.edu/sys/installdir/r8/stacks/2.64/bin/gstacks -I /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa/ -M /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_dummyplate2.txt -O /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_stacks
 
 
+***Got an error just in sample Cb020I - it had a small BAM file so likely had poor alignment to begin with - should this sample be discarded?
+samtools view /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa/Cb020I.bam | head
