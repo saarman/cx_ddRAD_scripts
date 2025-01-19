@@ -161,3 +161,7 @@ Cb016B.bam
 made new output file cx_ddRAD_stacks_filtered
 sbatch 6b_refmap.slurm 
 Submitted batch job 2882783
+
+
+sbatch 7b
+Submitted batch job 2882814
