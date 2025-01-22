@@ -21,38 +21,66 @@ module load plink
 module load vcftools
 
 # Input and output
-out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered"
-in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output/populations.snps"
+in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output"
+in_file="populations.snps"
+out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/"
 popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_dummyplate2_filtered.txt"
 
 
 # Code
 
-#Filter out SNPs with missingness above thresholds, but keep all individuals for now.
+#MOVE to output directory 
+cd ${out_path}
 
 #PLINK to convert VCF to PLINK:
-plink --vcf ${in_file}.vcf --double-id --allow-extra-chr --make-bed --out $in_file
-plink --bfile ${in_file} --double-id --allow-extra-chr --recode tab --out $in_file
+plink --vcf ${in_path}/${in_file}.vcf --double-id --allow-extra-chr --make-bed --out ./${in_file}
+plink --bfile ./${in_file} --double-id --allow-extra-chr --recode tab --out ./${in_file}
 
+MEDIUM FILTER FOR EVERYTHING
 #PLINK to filter by missing data, note this threshold is how much MISSING data is allowed, not how COMPLETE it needs to be (as it is with STACKS)
-cp /dev/null $in_file.missing.log
-plink --file ${in_file} --geno .7 --double-id --allow-extra-chr --recode --out ${in_file}_geno70           >> ${in_file}.missing.log
-plink --file ${in_file}_geno70 --mind .7 --double-id --allow-extra-chr --recode --out ${in_file}_mind70    >> ${in_file}.missing.log
-plink --file ${in_file}_mind70 --geno .65 --double-id --allow-extra-chr --recode --out ${in_file}_geno65    >> ${in_file}.missing.log
-plink --file ${in_file}_geno65 --mind .65 --double-id --allow-extra-chr --recode --out ${in_file}_mind65    >> ${in_file}.missing.log
-plink --file ${in_file}_mind65 --geno .6 --double-id --allow-extra-chr --recode --out ${in_file}_geno60    >> ${in_file}.missing.log
-plink --file ${in_file}_geno60 --mind .6 --double-id --allow-extra-chr --recode --out ${in_file}_mind60    >> ${in_file}.missing.log
-plink --file ${in_file}_mind60 --geno .55 --double-id --allow-extra-chr --recode --out ${in_file}_geno55    >> ${in_file}.missing.log
-plink --file ${in_file}_geno55 --mind .55 --double-id --allow-extra-chr --recode --out ${in_file}_mind55    >> ${in_file}.missing.log
-plink --file ${in_file}_mind55 --geno .5 --double-id --allow-extra-chr --recode --out ${in_file}_geno50    >> ${in_file}.missing.log
-plink --file ${in_file}_geno50 --mind .5 --double-id --allow-extra-chr --recode --out ${in_file}_mind50    >> ${in_file}.missing.log
-plink --file ${in_file}_mind50 --missing 
+cp /dev/null ${in_file}_g70m70g60m60g50m50_plink_log.txt
+plink --file ${in_file} --geno .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70        >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
+plink --file ${in_file}_g70 --mind .7 --double-id --allow-extra-chr --recode --out ${in_file}_m70    >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
+plink --file ${in_file}_m70 --geno .6 --double-id --allow-extra-chr --recode --out ${in_file}_g60    >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
+plink --file ${in_file}_g60 --mind .6 --double-id --allow-extra-chr --recode --out ${in_file}_m60    >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
+plink --file ${in_file}_m60 --geno .5 --double-id --allow-extra-chr --recode --out ${in_file}_g50    >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
+plink --file ${in_file}_g50 --mind .5 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70g60m60g50m50    >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
+plink --file ${in_file}_g70m70g60m60g50m50 --missing 
 
 #Extract sites from those that passed missing filters:
 cat ${in_file}_mind50.map | awk '{print $1 "\t" $4}' > ${in_file}_mind50.pos
 vcftools --vcf ${in_file}.vcf \
 --positions ${in_file}_mind50.pos \
 --recode --out ${in_file}_filtered
+
+
+# MED FILTER FOR GENO, SOFT FILTER FOR MIND
+#PLINK to filter by missing data with SOFT filter for mind, note this threshold is how much MISSING data is allowed, not how COMPLETE it needs to be (as it is with STACKS)
+cp /dev/null ${in_file}_g70m70g50_plink_log.txt
+plink --file ${in_file} --geno .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70           >> ${in_file}_g70m70g50_plink_log.txt
+plink --file ${in_file}_g70 --mind .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70    >> ${in_file}_g70m70g50_plink_log.txt
+plink --file ${in_file}_g70m70 --geno .5 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70g50    >> ${in_file}_g70m70g50_plink_log.txt
+plink --file ${in_file}_g70m70g50  --missing 
+
+#Extract sites from those that passed missing filters:
+cat ${in_file}_g70m70g50.map | awk '{print $1 "\t" $4}' > ${in_file}_g70m70g50.pos
+vcftools --vcf ${in_file}.vcf \
+--positions ${in_file}_g70m70g50.pos \
+--recode --out ${in_file}_g70m70g50_filtered
+
+# HARD FILTER FOR GENO, SOFT FILTER FOR MIND 
+#PLINK to filter by missing data with HARD filter for geno and SOFT filter for mind, note this threshold is how much MISSING data is allowed, not how COMPLETE it needs to be (as it is with STACKS)
+cp /dev/null ${in_file}_g70m70g20_plink_log.txt
+plink --file ${in_file} --geno .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70           >> ${in_file}_g70m70g20_plink_log.txt
+plink --file ${in_file}_g70 --mind .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70    >> ${in_file}_g70m70g20_plink_log.txt
+plink --file ${in_file}_g70m70 --geno .2 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70g20    >> ${in_file}_g70m70g20_plink_log.txt
+plink --file ${in_file}_g70m70g20  --missing 
+
+#Extract sites from those that passed missing filters:
+cat ${in_file}_g70m70g20.map | awk '{print $1 "\t" $4}' > ${in_file}_g70m70g20.pos
+vcftools --vcf ${in_file}.vcf \
+--positions ${in_file}_g70m70g20.pos \
+--recode --out ${in_file}_g70m70g20_filtered
 
 # Code usage
 
