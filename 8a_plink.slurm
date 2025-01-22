@@ -17,7 +17,7 @@
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 
 # Load Module
-module load plink
+module load plink/2.0
 
 # Input and output
 out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD/cx_ddRAD_filtered"
