@@ -17,7 +17,7 @@
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 
 # Load Module
-module load plink/2.0
+module load plink
 module load vcftools
 
 # Input and output
