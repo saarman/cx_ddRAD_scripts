@@ -20,8 +20,8 @@
 module load plink/2.0
 
 # Input and output
-out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD/cx_ddRAD_filtered"
-in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD/cx_ddRAD_populations_output/populations.snps.vcf"
+out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered"
+in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output/populations.snps.vcf"
 popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_dummyplate2_filtered.txt"
 
 
