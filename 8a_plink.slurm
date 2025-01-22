@@ -22,9 +22,7 @@ module load plink
 # Input and output
 out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD/cx_ddRAD_plink_output"
 in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD/cx_ddRAD_populations_output/cx_ddRAD.snps.vcf"
-popmap="/project/piru_hylaues/KochProjects/alkalibeepopgen/popmap2/nomia_dummy_plate2"
-in_path="/project/piru_hylaues/KochProjects/alkalibeepopgen/stacks_pipeline/refmap_output13"
-
+popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_dummyplate2_filtered.txt"
 
 
 # Code
