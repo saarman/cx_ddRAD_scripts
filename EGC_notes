@@ -170,8 +170,7 @@ Meeting with Norah - adding 8b bcftools step for Allele balance, can remove 8c_v
 
 sbatch 8a_plink.slurm 
 Submitted batch job 2906973
-*error wrong file name
+*error wrong file name, had to add vcf module, 
 
-sbatch 8a_plink.slurm 
-Submitted batch job 2907443
+Changed 8a to make filters harder and softer options
 
