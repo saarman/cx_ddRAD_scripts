@@ -162,7 +162,6 @@ made new output file cx_ddRAD_stacks_filtered
 sbatch 6b_refmap.slurm 
 Submitted batch job 2882783
 
-
 sbatch 7b
 Submitted batch job 2882814
 
@@ -171,5 +170,8 @@ Meeting with Norah - adding 8b bcftools step for Allele balance, can remove 8c_v
 
 sbatch 8a_plink.slurm 
 Submitted batch job 2906973
+*error wrong file name
 
+sbatch 8a_plink.slurm 
+Submitted batch job 2907443
 
