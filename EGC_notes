@@ -165,3 +165,8 @@ Submitted batch job 2882783
 
 sbatch 7b
 Submitted batch job 2882814
+
+1/22/25
+Meeting with Norah - adding 8b bcftools step for Allele balance, removed 8c_vcf
+
+
