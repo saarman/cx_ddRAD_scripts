@@ -167,6 +167,7 @@ Submitted batch job 2882814
 
 1/22/25
 Meeting with Norah - adding 8b bcftools step for Allele balance, can remove 8c_vcf
+Changed 8a to make filters harder and softer options
 
 sbatch 8a_plink.slurm 
 Submitted batch job 2906973
@@ -182,7 +183,5 @@ Outputting VCF file...
 After filtering, kept 13597 out of a possible 36024 Sites
 Run Time = 2.00 seconds
 
-
-
-Changed 8a to make filters harder and softer options
+Submitted batch job 2923696
 
