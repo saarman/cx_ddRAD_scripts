@@ -47,13 +47,6 @@ plink --file ${in_file}_m60 --geno .5 --double-id --allow-extra-chr --recode --o
 plink --file ${in_file}_g50 --mind .5 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70g60m60g50m50    >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
 plink --file ${in_file}_g70m70g60m60g50m50 --missing 
 
-#Extract sites from those that passed missing filters:
-cat ${in_file}_mind50.map | awk '{print $1 "\t" $4}' > ${in_file}_mind50.pos
-vcftools --vcf ${in_file}.vcf \
---positions ${in_file}_mind50.pos \
---recode --out ${in_file}_filtered
-
-
 # MED FILTER FOR GENO, SOFT FILTER FOR MIND
 #PLINK to filter by missing data with SOFT filter for mind, note this threshold is how much MISSING data is allowed, not how COMPLETE it needs to be (as it is with STACKS)
 cp /dev/null ${in_file}_g70m70g50_plink_log.txt
@@ -61,12 +54,6 @@ plink --file ${in_file} --geno .7 --double-id --allow-extra-chr --recode --out $
 plink --file ${in_file}_g70 --mind .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70    >> ${in_file}_g70m70g50_plink_log.txt
 plink --file ${in_file}_g70m70 --geno .5 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70g50    >> ${in_file}_g70m70g50_plink_log.txt
 plink --file ${in_file}_g70m70g50  --missing 
-
-#Extract sites from those that passed missing filters:
-cat ${in_file}_g70m70g50.map | awk '{print $1 "\t" $4}' > ${in_file}_g70m70g50.pos
-vcftools --vcf ${in_file}.vcf \
---positions ${in_file}_g70m70g50.pos \
---recode --out ${in_file}_g70m70g50_filtered
 
 # HARD FILTER FOR GENO, SOFT FILTER FOR MIND 
 #PLINK to filter by missing data with HARD filter for geno and SOFT filter for mind, note this threshold is how much MISSING data is allowed, not how COMPLETE it needs to be (as it is with STACKS)
@@ -76,11 +63,11 @@ plink --file ${in_file}_g70 --mind .7 --double-id --allow-extra-chr --recode --o
 plink --file ${in_file}_g70m70 --geno .2 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70g20    >> ${in_file}_g70m70g20_plink_log.txt
 plink --file ${in_file}_g70m70g20  --missing 
 
-#Extract sites from those that passed missing filters:
-cat ${in_file}_g70m70g20.map | awk '{print $1 "\t" $4}' > ${in_file}_g70m70g20.pos
-vcftools --vcf ${in_file}.vcf \
---positions ${in_file}_g70m70g20.pos \
---recode --out ${in_file}_g70m70g20_filtered
+
+
+
+
+
 
 # Code usage
 
