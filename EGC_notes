@@ -183,5 +183,9 @@ Outputting VCF file...
 After filtering, kept 13597 out of a possible 36024 Sites
 Run Time = 2.00 seconds
 
-Submitted batch job 2923696
+Submitted batch job 2923700
+
+[filter.c:2933 filters_init1] Error: the tag "AB" is not defined in the VCF header
+Start time : 14:08:59
+
 
