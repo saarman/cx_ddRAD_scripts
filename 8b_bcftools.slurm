@@ -21,7 +21,7 @@ in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddR
 out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels.vcf"
 
 # PERMISSIONS
- chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
+# chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
 
 # TIMESTAMP
 now=$(date +"%T")
@@ -41,7 +41,7 @@ bcftools filter \
   -i 'INFO/MAF >= 0.01 & FORMAT/AB > 0.3 & FORMAT/AB < 0.7' -Ou | \
 
 # Step 3: Retain indels without further filtering
-bcftools view -v indels input.vcf -Ou | \
+bcftools view -v indels ${in_file} -Ou | \
 
 # Step 4: Combine filtered SNPs and indels
 bcftools concat -a -o ${out_file}
