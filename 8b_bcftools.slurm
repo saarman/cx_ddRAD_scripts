@@ -38,7 +38,9 @@ bcftools view \
   -m2 -M2 -v snps -Ou | \
 bcftools +fill-tags -Ou -- -t MAF | \
 bcftools filter \
-  -i 'INFO/MAF >= 0.01 & FORMAT/AB > 0.3 & FORMAT/AB < 0.7' -Ou | \
+ -i 'INFO/MAF >= 0.01 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.3 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.7 & GT=="0/1"' -Ou | \
+
+# -i 'INFO/MAF >= 0.01 & FORMAT/AB > 0.3 & FORMAT/AB < 0.7' -Ou | \
 
 # Step 3: Retain indels without further filtering
 bcftools view -v indels ${in_file} -Ou | \
@@ -49,4 +51,4 @@ bcftools concat -a -o ${out_file}
 
 # TIMESTAMP
 now=$(date +"%T")
-echo "Start time : $now"
+echo "End time : $now"
