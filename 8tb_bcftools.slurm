@@ -36,18 +36,31 @@ bcftools filter -i 'INFO/MAF >= 0.01 & FORMAT/AD[0:1] > 0.3 & FORMAT/AD[0:1] < 0
 # STEP 3: Retain indels separately
 bcftools view -v indels step1.bcf -Ov -o indels.vcf
 
-# STEP 4: Compress and index VCFs
-bgzip -c step4.vcf > step4.vcf.gz
-tabix -p vcf step4.vcf.gz
+# STEP 4: Sort VCF files (necessary for bgzip and tabix)
+bcftools sort step4.vcf -Ou > step4_sorted.vcf
+bcftools sort indels.vcf -Ou > indels_sorted.vcf
 
-bgzip -c indels.vcf > indels.vcf.gz
-tabix -p vcf indels.vcf.gz
+# STEP 5: Compress and index VCFs
+bgzip -c step4_sorted.vcf > step4_sorted.vcf.gz
+tabix -p vcf step4_sorted.vcf.gz
 
-# STEP 5: Concatenate SNPs and indels into final output file
-bcftools concat -a step4.vcf.gz indels.vcf.gz -O v -o ${out_file}
+bgzip -c indels_sorted.vcf > indels_sorted.vcf.gz
+tabix -p vcf indels_sorted.vcf.gz
+
+# STEP 6: Concatenate SNPs and indels into final output file
+bcftools concat -a step4_sorted.vcf.gz indels_sorted.vcf.gz -O v -o ${out_file}
+
+# FINAL CHECK: Confirm output file exists
+if [[ -s ${out_file} ]]; then
+    echo "Pipeline completed successfully. Output: ${out_file}"
+else
+    echo "Error: Output file was not created!"
+    exit 1
+fi
 
 # TIMESTAMP
 now=$(date +"%T")
 echo "End time : $now"
+
 
 
