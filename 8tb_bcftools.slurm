@@ -14,6 +14,7 @@
 #SBATCH --mail-user=emily.calhoun@usu.edu
 
 module load bcftools
+module load htslib   # Ensure bgzip and tabix are available
 
 # INPUT and OUTPUT
 in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered.recode.vcf"
