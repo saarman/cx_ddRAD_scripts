@@ -188,6 +188,8 @@ Submitted batch job 2923700
 [filter.c:2933 filters_init1] Error: the tag "AB" is not defined in the VCF header
 Start time : 14:08:59
 
+1/29/25
+Troubleshooting AB balance as Allele Depth calculation
 
 
 
