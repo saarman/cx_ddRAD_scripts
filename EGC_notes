@@ -191,5 +191,34 @@ Start time : 14:08:59
 1/29/25
 Troubleshooting AB balance as Allele Depth calculation
 
+bcftools view -v snps,indels /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered.recode.vcf -Ou | bcftools filter -i 'GT="0/1"' -Ov |
+ head -n 20
 
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##fileDate=20250119
+##source="Stacks v2.64"
+##contig=<ID=scaffold_1,length=219626240>
+##contig=<ID=scaffold_10,length=242402>
+##contig=<ID=scaffold_100,length=23821>
+##contig=<ID=scaffold_101,length=23765>
+##contig=<ID=scaffold_102,length=23701>
+##contig=<ID=scaffold_103,length=23662>
+##contig=<ID=scaffold_104,length=23514>
+##contig=<ID=scaffold_105,length=22920>
+##contig=<ID=scaffold_106,length=22817>
+##contig=<ID=scaffold_107,length=22581>
+##contig=<ID=scaffold_108,length=22538>
+##contig=<ID=scaffold_109,length=21978>
+##contig=<ID=scaffold_110,length=21833>
+##contig=<ID=scaffold_111,length=21412>
+##contig=<ID=scaffold_112,length=21226>
+##contig=<ID=scaffold_113,length=21032>
+
+Since this prints VCF lines it is likely that bcftools is working but has issues writing to the output file.
+
+changed concat line to - bcftools concat -a -O v -o ${out_file}
+
+sbatch 8b
+Submitted batch job 2985823
 
