@@ -13,10 +13,12 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=emily.calhoun@usu.edu
 
+# LOAD MODULES
 module load bcftools
 module load htslib   # Ensure bgzip and tabix are available
+module load tabix  # Make sure tabix is loaded for indexing
 
-# INPUT and OUTPUT FILES
+# INPUT and OUTPUT
 in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered.recode.vcf"
 out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels.vcf"
 
@@ -30,28 +32,36 @@ if [[ ! -f "$in_file" ]]; then
     exit 1
 fi
 
-# STEP 1: Retain SNPs & Indels, filter by QUAL and DP
-bcftools view -v snps,indels ${in_file} -Ou | \
-bcftools filter -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' -Ou > step1.vcf
+# STEP 1: Retain SNPs & indels, filter by QUAL and DP
+bcftools view -v snps,indels ${in_file} -Ou > step1.vcf
 
-# STEP 2: Filter Biallelic SNPs, Add Minor Allele Frequency (MAF)
-bcftools view -m2 -M2 -v snps -Ou step1.vcf | \
-bcftools +fill-tags -Ou -- -t MAF > step2.vcf
+# STEP 2: Filter by quality and depth
+bcftools filter -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' step1.vcf -Ou > step2.vcf
 
-# STEP 3: Filter heterozygotes (GT field)
-bcftools filter -i 'GT~"0/1" | GT~"1/0" | GT~"0|1" | GT~"1|0"' step2.vcf -Ou > step3.vcf
+# STEP 3: Filter biallelic SNPs, add minor allele frequency (MAF)
+bcftools view -m2 -M2 -v snps -Ou step2.vcf | \
+bcftools +fill-tags -Ou -- -t MAF > step3.vcf
 
-# DEBUG: Check if filtering removed all variants
-if [[ ! -s step3.vcf ]]; then
-    echo "Error: No variants remain after heterozygote filtering!"
-    exit 1
-fi
+# STEP 4: Compress step3.vcf
+bgzip step3.vcf
+tabix -p vcf step3.vcf.gz
 
-# STEP 4: Retain Indels Separately (No further filtering)
+# STEP 5: Filter heterozygotes (GT field)
+bcftools filter -i 'GT~"0/1" | GT~"1/0" | GT~"0|1" | GT~"1|0"' step3.vcf.gz -Ov > step4.vcf
+
+# STEP 6: Compress step4.vcf
+bgzip step4.vcf
+tabix -p vcf step4.vcf.gz
+
+# STEP 7: Retain indels separately
 bcftools view -v indels ${in_file} -Ou > indels.vcf
 
-# STEP 5: Concatenate SNPs and Indels into Final Output File
-bcftools concat -a -O v -o ${out_file} step3.vcf indels.vcf
+# STEP 8: Compress indels.vcf
+bgzip indels.vcf
+tabix -p vcf indels.vcf.gz
+
+# STEP 9: Concatenate SNPs and indels into final output file
+bcftools concat -a -O v -o ${out_file} step4.vcf.gz indels.vcf.gz
 
 # FINAL CHECK: Confirm output file exists
 if [[ -s ${out_file} ]]; then
