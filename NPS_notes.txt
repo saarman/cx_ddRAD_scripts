@@ -1,0 +1,59 @@
+#Step 1: Extract Genotype (GT) and Allelic Depth (AD) Fields
+#Use bcftools query to extract relevant fields from your VCF:
+
+bcftools query -f '%CHROM\t%POS\t%ID\t[%GT\t%AD\t]\n' input.vcf > snp_data.txt
+Extracts:
+CHROM (Chromosome)
+POS (Position)
+ID (Variant ID)
+GT (Genotype)
+AD (Allelic Depth for REF and ALT)
+
+#Step 2: Calculate Average Allele Balance for Each SNP
+#You can use awk to process this data and compute the average allele balance (AB) using only heterozygotes.
+
+awk '
+BEGIN { OFS="\t" }
+{
+    chrom=$1; pos=$2; id=$3;
+    sum_ab = 0; count_het = 0;
+
+    for (i=4; i<=NF; i+=2) {
+        gt = $(i); ad = $(i+1);
+        split(ad, depths, ",");
+
+        if (gt == "0/1" || gt == "1/0") {  # Check if heterozygous
+            if (depths[1] + depths[2] > 0) {  # Avoid division by zero
+                ab = depths[2] / (depths[1] + depths[2]);
+                sum_ab += ab;
+                count_het++;
+            }
+        }
+    }
+
+    if (count_het > 0) {
+        avg_ab = sum_ab / count_het;
+        if (avg_ab >= 0.3 && avg_ab <= 0.7) {  # Apply filtering threshold
+            print chrom, pos, id, avg_ab;
+        }
+    }
+}' snp_data.txt > filtered_snps.tsv
+
+#Iterates through each SNP.
+#Checks for heterozygous genotypes (0/1 or 1/0).
+#Extracts AD values and calculates allele balance.
+#Computes the average AB for each SNP using only heterozygous individuals.
+#Filters SNPs with 0.3 ≤ AB ≤ 0.7.
+#Outputs the filtered SNP list (filtered_snps.tsv).
+
+
+#Step 3: Create a List of SNPs to Retain
+#Extract SNP positions from the filtered list:
+
+cut -f1,2 filtered_snps.tsv > snps_to_keep.txt
+
+#Step 4: Filter VCF to Retain Only the Selected SNPs
+#Now, use bcftools to create a final filtered VCF:
+
+bcftools view -T snps_to_keep.txt input.vcf -o final_filtered.vcf
+# -T snps_to_keep.txt keeps only SNPs in the list.
