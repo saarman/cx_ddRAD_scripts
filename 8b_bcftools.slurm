@@ -46,9 +46,8 @@ bcftools filter \
 bcftools view -v indels ${in_file} -Ou | \
 
 # Step 4: Combine filtered SNPs and indels
-# bcftools concat -a -o ${out_file}
+bcftools concat -a -o ${out_file}
 
-bcftools concat -a -O v -o ${out_file}
 
 
 # TIMESTAMP
