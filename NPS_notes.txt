@@ -2,12 +2,12 @@
 #Use bcftools query to extract relevant fields from your VCF:
 
 bcftools query -f '%CHROM\t%POS\t%ID\t[%GT\t%AD\t]\n' input.vcf > snp_data.txt
-Extracts:
-CHROM (Chromosome)
-POS (Position)
-ID (Variant ID)
-GT (Genotype)
-AD (Allelic Depth for REF and ALT)
+#Extracts:
+#CHROM (Chromosome)
+#POS (Position)
+#ID (Variant ID)
+#GT (Genotype)
+#AD (Allelic Depth for REF and ALT)
 
 #Step 2: Calculate Average Allele Balance for Each SNP
 #You can use awk to process this data and compute the average allele balance (AB) using only heterozygotes.
