@@ -30,18 +30,42 @@ echo "Start time : $now"
 
 # Step 1: Retain both SNPs and indels, filter by QUAL and DP
 bcftools view -v snps,indels ${in_file} -Ou | \
-bcftools filter -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' -Ov > ${temp_snps}
+bcftools filter -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' -Ov -o ${temp_snps}
+
+# Verify SNP filtering output
+if [ ! -s ${temp_snps} ]; then
+    echo "Error: ${temp_snps} is empty! Exiting."
+    exit 1
+fi
 
 # Step 2: Filter biallelic SNPs by allele balance (AB) and minor allele frequency (MAF)
 bcftools view -m2 -M2 -v snps ${temp_snps} -Ou | \
 bcftools +fill-tags -Ou -- -t MAF | \
-bcftools filter -i 'INFO/MAF >= 0.01 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.3 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.7 & GT=="0/1"' -Ov > ${temp_snps}
+bcftools filter -i 'INFO/MAF >= 0.01 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.3 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.7 & GT=="0/1"' -Ov -o ${temp_snps}
+
+# Verify SNP filtering output again
+if [ ! -s ${temp_snps} ]; then
+    echo "Error: ${temp_snps} is empty after filtering! Exiting."
+    exit 1
+fi
 
 # Step 3: Retain indels without further filtering
-bcftools view -v indels ${in_file} -Ov > ${temp_indels}
+bcftools view -v indels ${in_file} -Ov -o ${temp_indels}
+
+# Verify indels output
+if [ ! -s ${temp_indels} ]; then
+    echo "Error: ${temp_indels} is empty! Exiting."
+    exit 1
+fi
 
 # Step 4: Combine filtered SNPs and indels into a single file
 bcftools concat -a -o ${out_file} ${temp_snps} ${temp_indels}
+
+# Verify final output
+if [ ! -s ${out_file} ]; then
+    echo "Error: ${out_file} was not created! Exiting."
+    exit 1
+fi
 
 # Step 5: Extract Genotype (GT) and Allelic Depth (AD) Fields for SNPs
 bcftools query -f '%CHROM\t%POS\t%ID\t[%GT\t%AD\t]\n' ${in_file} > ${snp_data}
@@ -87,7 +111,5 @@ rm ${temp_snps} ${temp_indels}
 now=$(date +"%T")
 echo "Pipeline completed successfully"
 echo "End time : $now"
-
-
 
 
