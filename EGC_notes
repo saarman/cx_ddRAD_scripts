@@ -233,16 +233,12 @@ Still error with outputs because of big files not being unzipped? adding lines i
 
 sbatch 8tb_bcftools.slurm 
 Submitted batch job 2987751
-
 AGAIN sbatch 8tb_bcftools.slurm
 Submitted batch job 2987752
-
 AGAIn sbatch 8tb_bcftools.slurm 
 Submitted batch job 2987756
-
 trying again sbatch 8tb_bcftools.slurm 
 Submitted batch job 2987947
-
 sbatch 8tb_bcftools.slurm
 Submitted batch job 2987958
 
@@ -252,7 +248,7 @@ Going back to original 8b to see what the error was again
 sbatch 8b_bcftools.slurm 
 Submitted batch job 2990887
 
-Something wrong with concatenate line
+Something wrong with concatenate line ?
 
 sbatch 8b_bcftools.slurm 
 Submitted batch job 2991066
@@ -262,7 +258,7 @@ Met with Norah - trying her recommendation combining NPS notes and 8b
 sbatch 8tsb_bcftools.slurm 
 Submitted batch job 2991581
 
-Same issue.... do I need to manually gunzip files?
+Same thing in output slurm file.... is this ok? do I need to manually gunzip files?
 Start time : 14:48:09
 
 About:   Concatenate or combine VCF/BCF files. All source files must have the same sample
@@ -306,3 +302,7 @@ sbatch 8tsb_bcftools.slurm
 Submitted batch job 2997158
 
 It was working! Just labeled differently than I thought oops ( -o ${final_filtered} )
+
+Going to rerun with new output file path. 
+
+Norah writing a new PLINK and pop file to check the summary statistics of the final filtered SNPs
