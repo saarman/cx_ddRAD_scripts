@@ -299,3 +299,8 @@ The FORMAT tag AD can have multiple subfields, run as AD[sample:subfield]
 Pipeline completed successfully
 End time : 14:48:11
 
+1/31/25 
+Trying a new concat strategy 
+
+sbatch 8tsb_bcftools.slurm 
+Submitted batch job 2997158
