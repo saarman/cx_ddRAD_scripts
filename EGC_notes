@@ -305,4 +305,4 @@ Trying a new concat strategy
 sbatch 8tsb_bcftools.slurm 
 Submitted batch job 2997158
 
-It was working! Just labeled differently than I thought, 
+It was working! Just labeled differently than I thought oops ( -o ${final_filtered} )
