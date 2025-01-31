@@ -18,11 +18,11 @@ module load bcftools
 
 # INPUT and OUTPUT
 in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered.recode.vcf"
-out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels.vcf"
+# out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels.vcf"
 snp_data="snp_data.txt"
 filtered_snps="filtered_snps.tsv"
 snps_to_keep="snps_to_keep.txt"
-final_filtered="final_filtered.vcf"
+final_filtered="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels.vcf"
 
 # PERMISSIONS
 # chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
