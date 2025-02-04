@@ -306,3 +306,10 @@ It was working! Just labeled differently than I thought oops ( -o ${final_filter
 Going to rerun with new output file path. 
 
 Norah writing a new PLINK and pop file to check the summary statistics of the final filtered SNPs
+
+2/4/25
+Successfully got filtered snps file in correct directory -Submitted batch job 3030008
+Running 9aplink 
+Submitted batch job 3030182
+
+Things seemed to work but at the end of slurm file it says - Error: Stacks populations summary statistics were not generated.
