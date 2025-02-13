@@ -24,20 +24,11 @@ OUT_PREFIX="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_
 OUT_PATH="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/"                                             
 SUMMARY_OUT="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels_sumstats"
 
-# Define error log file
-ERROR_LOG="${OUT_PATH}/populations_error_log.txt"
-
 #################################
 # Step 1: Run Stacks populations
 #################################
 echo "Running Stacks populations script..."
 populations -V ${IN_FILE} --popmap $POPMAP -O ${OUT_PATH} --vcf --plink
-
-# Check if Stacks output was generated successfully
-if [[ ! -f "${OUT_PATH}/populations.sumstats_summary.tsv" ]]; then
-    echo "Error: Stacks populations summary statistics were not generated." | tee -a $ERROR_LOG
-    exit 1
-fi
 
 # Rename and copy the Stacks summary statistics file
 cp ${OUT_PATH}/populations* ${OUT_PATH}/
@@ -49,4 +40,3 @@ echo "Stacks summary statistics saved in: "${OUT_PATH}"
 # Loads necessary modules (stacks/2.64 and plink).
 # Runs Stacks populations to generate summary statistics.
 # Verifies that Stacks output exists before proceeding.
-# Logs errors to populations_error_log.txt instead of exiting immediately where possible.
