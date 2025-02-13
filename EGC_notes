@@ -313,3 +313,6 @@ Running 9aplink
 Submitted batch job 3030182
 
 Things seemed to work but at the end of slurm file it says - Error: Stacks populations summary statistics were not generated.
+
+2/13/25 Meeting with Norah 
+It did work! The error was generated because that specific file wasnt there was another output file with a different name. 
