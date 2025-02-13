@@ -90,8 +90,6 @@ echo "PLINK processing completed successfully!"
 # What This Script Does
 #################################
 # Loads necessary modules (stacks/2.64 and plink).
-# Runs Stacks populations to generate summary statistics.
-# Verifies that Stacks output exists before proceeding.
 # Converts the VCF to PLINK format and checks for errors.
 # Computes multiple PLINK-based summary statistics:
 # Allele frequencies
