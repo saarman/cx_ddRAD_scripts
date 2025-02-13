@@ -15,7 +15,6 @@
 #SBATCH --mail-type=FAIL
 
 # Load required modules for Stacks and PLINK
-module load stacks/2.64
 module load plink
 
 # Define input and output paths/files
@@ -29,23 +28,7 @@ SUMMARY_OUT="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx
 ERROR_LOG="${OUT_PATH}/error_log.txt"
 
 #################################
-# Step 1: Run Stacks populations
-#################################
-echo "Running Stacks populations script..."
-populations -V ${IN_FILE} --popmap $POPMAP -O ${OUT_PATH} --vcf --plink
-
-# Check if Stacks output was generated successfully
-if [[ ! -f "${OUT_PATH}/populations.sumstats.tsv" ]]; then
-    echo "Error: Stacks populations summary statistics were not generated." | tee -a $ERROR_LOG
-    exit 1
-fi
-
-# Rename and copy the Stacks summary statistics file
-cp "${OUT_PATH}/populations.sumstats.tsv" "${OUT_PREFIX}_populations.sumstats.tsv"
-echo "Stacks summary statistics saved in: ${OUT_PREFIX}_populations.sumstats.tsv"
-
-#################################
-# Step 2: PLINK Summary Statistics
+# Step 1: Run PLINK Summary Statistics Commands
 #################################
 # Ensure the input VCF file exists
 if [[ ! -f "$IN_FILE" ]]; then
@@ -84,7 +67,7 @@ echo "Computing Inbreeding Coefficients (F-statistics)..."
 plink --bfile $OUT_PREFIX --het --out ${SUMMARY_OUT}_fstat
 
 #################################
-# Step 3: Merge Summary Statistics
+# Step 2: Merge Summary Statistics
 #################################
 echo "Compiling summary statistics..."
 
