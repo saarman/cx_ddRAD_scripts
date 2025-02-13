@@ -24,15 +24,13 @@ OUT_PREFIX="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_
 OUT_PATH="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/"                                             
 SUMMARY_OUT="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels_sumstats"
 
-# Define error log file
-ERROR_LOG="${OUT_PATH}/error_log.txt"
 
 #################################
 # Step 1: Run PLINK Summary Statistics Commands
 #################################
 # Ensure the input VCF file exists
 if [[ ! -f "$IN_FILE" ]]; then
-    echo "Error: VCF file not found: $IN_FILE" | tee -a $ERROR_LOG
+    echo "Warning: VCF file not found: $IN_FILE"
     exit 1
 fi
 
@@ -42,7 +40,7 @@ plink --vcf $IN_FILE --make-bed --out $OUT_PREFIX
 
 # Verify that PLINK file conversion was successful
 if [[ ! -f "${OUT_PREFIX}.bed" ]]; then
-    echo "Error: PLINK file conversion failed." | tee -a $ERROR_LOG
+    echo "Warning: PLINK file conversion failed." 
     exit 1
 fi
 
@@ -81,7 +79,7 @@ if [[ -f ${SUMMARY_OUT}_allele_freq.frq && -f ${SUMMARY_OUT}_missing.lmiss && \
     echo "Summary statistics saved to: ${SUMMARY_OUT}_combined.tsv"
 
 else
-    echo "Error: One or more summary statistics files are missing. Skipping merge." | tee -a $ERROR_LOG
+    echo "Warning: One or more summary statistics files are missing. Skipping merge."
 fi
 
 echo "PLINK processing completed successfully!"
@@ -98,4 +96,4 @@ echo "PLINK processing completed successfully!"
 # Hardy-Weinberg Equilibrium (HWE) test
 # F-statistics (inbreeding coefficients)
 # Merges PLINK outputs into a single file, checking that all required files exist before merging.
-# Logs errors to error_log.txt instead of exiting immediately where possible.
+# Logs possible errors as warnings instead of exiting immediately where possible.
