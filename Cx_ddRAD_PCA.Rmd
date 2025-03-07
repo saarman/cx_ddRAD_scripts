@@ -1,0 +1,245 @@
+---
+title: "cx_ddRAD_sumstats"
+author: "Norah Saarman"
+date: "2025-03-07"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries}
+library(adegenet)
+library(ggplot2)
+library(vcfR)
+library(LEA)
+```
+
+
+Subsample SNPS to make more manageable (run separately before knitting)
+
+**Example: Subsampling SNPs Using VCFtools**
+
+For demonstration purposes, here's an example of how to subsample SNPs from a large VCF file using **vcftools**.
+This code is **not meant to be run within R**, but serves as a reference for working with large datasets (run separately before knitting).
+
+HERE IS THE BASH CODE YOU WOULD USE
+
+```
+module load vcftools
+# Step 1: Filter the original VCF to retain 
+# only high-quality SNPs, then randomly select 5000
+vcftools --gzvcf /uufs/chpc.utah.edu/common/home/saarman-group1/pine/diploid_Pydts_final.vcf.gz \
+        # Keep only variants with a maximum of 2 alleles (biallelic sites)
+         --max-alleles 2 \  
+        # Ensure variants have at least 2 alleles (i.e., they are not monomorphic)
+         --min-alleles 2 \
+        # Retain only sites with no missing genotypes
+         --max-missing 1.0 \      
+        # Exclude indels so that only SNPs remain
+         --remove-indels \
+        # Apply a minor allele frequency filter; retain SNPs with MAF >= 1%
+         --maf 0.01 \ 
+        # Recode (write out) a new VCF file that includes only the filtered sites
+         --recode \ 
+        # Include all INFO fields from the original VCF in the output
+         --recode-INFO-all \    
+        # Output the recoded VCF to standard output for further processing
+         --stdout | \  
+        # Remove VCF header lines (lines starting with "#") 
+         grep -v "^#" | \         
+        # Randomly select 5000 SNP records
+         shuf -n 5000 | \
+        # Extract the first two columns and save to a file
+         cut -f1,2 > random_snps.txt        
+
+# Step 2: Use the list of positions to create a new VCF containing only these 5000 SNPs.
+vcftools --gzvcf /uufs/chpc.utah.edu/common/home/saarman-group1/pine/diploid_Pydts_final.vcf.gz \
+        # Use the list of SNP positions from the first step
+         --positions random_snps.txt \  
+         # Recode (filter) the VCF to include only these positions
+         --recode \    
+         # Retain all the INFO fields from the original VCF
+         --recode-INFO-all \ 
+        # Write the output to a file with prefix 'pine_random_subset'
+         --out pine_random_subset        
+```
+
+## Import VCF, run PCA
+```{r import}
+# Import from file
+vcf <- read.vcfR("/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels.p.snps.vcf")
+
+# Convert the VCF object to a genind object
+genind_obj <- vcfR2genind(vcf)
+
+# Extract population labels, FIRST 5 char
+pop_labels <- substr(indNames(genind_obj), 1, 5)
+
+# Assign the extracted labels as pop names
+pop(genind_obj) <- as.factor(pop_labels)
+
+# Subset
+genind_sub <- genind_obj[genind_obj@pop %in% c("Cb013", "Cb014", "Cb015", "Cb017", "Cb018", "Cb019", "Cb020"),]
+```
+
+Visualize genetic variation with PCA
+```{r pca}
+# Convert genind object to a data frame
+genind_df <- tab(genind_sub, NA.method = "mean")
+
+# Run PCA
+pca_result3 <- dudi.pca(genind_df, cent = FALSE, scale = TRUE, scannf = FALSE, nf = 4)
+```
+```{r}
+# Load required package
+library(adegenet)
+
+# Extract unique population names from the genind object
+pop_names <- unique(pop(genind_sub))
+num_pops <- length(pop_names)  
+
+# Define preferred color palette
+mycols <- c("#32004B","#0398E5","#FE6400","#0C650A","#98184B","#FDB0B0",
+            "#FE004B","#319732","#FC9500","#836C2A","#E5FE01","#6B09AA", 
+            "#4106F7","#ABDDA4","#298DEF","#BABA36","#FED790","#FE6804", 
+            "red","purple","pink","grey","blue","green","gold")  
+
+# Assign colors, repeating if necessary
+site_colors <- setNames(rep(mycols, length.out = num_pops), pop_names)
+
+# Extract population codes and match them to colors
+pop_codes <- as.character(pop(genind_sub))
+pop_colors <- site_colors[pop_codes]
+
+# Assign default color ("black") to any missing populations
+pop_colors[is.na(pop_colors)] <- "black"
+
+# Set up layout with two columns (one for PCA, one for legend)
+layout(matrix(c(1, 2), nrow = 1), widths = c(3.5, 1))
+
+# PCA plot
+par(mar = c(5, 4, 4, 2))
+plot(pca_result3$li[,1:2], 
+     col = pop_colors, pch = 19, 
+     xlab = "PC1", ylab = "PC2", 
+     main = "Underground PCA")
+
+# Legend panel
+par(mar = c(5, 1, 4, 1))
+plot.new()
+legend("center", legend = names(site_colors), 
+       col = site_colors, pch = 19, 
+       cex = 0.8, title = "Populations")
+
+
+```
+
+# 2. ADMIXTURE
+
+## 2A. Create input for LEA from genind (MUST run before knitting)
+```{r lea, eval = FALSE}
+# Function to convert a genind object to STRUCTURE format
+convert_genind_to_structure <- function(genind_obj, output_file) {
+  geno_matrix <- tab(genind_obj, NA.method = "mean")  # Convert genind to numeric matrix
+  pop_ids <- pop(genind_obj)  # Extract population information
+  
+  # Ensure diploid data is structured correctly
+  structure_matrix <- as.data.frame(geno_matrix)
+  structure_matrix <- cbind(pop_ids, structure_matrix)  # Add population IDs
+  
+  # Write to file without quotes, suitable for STRUCTURE
+  write.table(structure_matrix, output_file, 
+        quote = FALSE, row.names = FALSE, 
+        col.names = FALSE, sep = " ")
+}
+
+# Convert and save STRUCTURE format file
+convert_genind_to_structure(genind_sub, "lea_input.str")
+
+```
+
+## 2B. Write geno file and run Admixture analysis with sNMF (MUST run before knitting)
+
+```{r lea-snmf, eval = FALSE}
+# Convert and write to file STRUCTURE format 
+# to a LEA-compatible matrix
+struct2geno("lea_input.str", ploidy = 2, 
+            FORMAT = 1, extra.column = 1)
+
+# Define range of K values
+k_values <- 2:6  # Adjust as needed
+
+# Run sNMF for each K
+project <- snmf("lea_input.str.geno", 
+                K = k_values, entropy = TRUE, 
+                repetitions = 10, ploidy = 2, 
+                project = "new")
+
+# Run cross_entropy and save object
+cross_entropy_values <- sapply(k_values, 
+        function(k) cross.entropy(project, K = k))
+
+# Save a single object to a file
+saveRDS(cross_entropy_values, "cross_entropy_values.rds")
+```
+
+Plot cross-entropy to visualize and decide which is best K value
+```{r lea-cross-entropy}
+# Define range of K values
+k_values <- 2:6  # Adjust as needed
+
+# Restore necessary data
+cross_entropy_values <- readRDS(file = "cross_entropy_values.rds")
+
+# Plot cross-entropy to visualize model selection
+plot(k_values, cross_entropy_values[1,], 
+     type = "b", pch = 19, col = "blue",
+     xlab = "Number of Clusters (K)", 
+     ylab = "Cross-Entropy",
+     main = "LEA Model Selection", 
+     ylim = c(min(cross_entropy_values),
+              max(cross_entropy_values)))
+for (i in 2:10) { # Overlay replicates
+  lines(k_values, cross_entropy_values[i,], col = "gray")
+}
+```
+## 2C. Plot each K-value with randomly sampled which replicate run to use
+```{r lea-plot}
+# Define range of K values
+k_values <- 2:6  # Adjust as needed
+
+project = load.snmfProject("lea_input.str.snmfProject")
+
+run_num <- sample(1:10,1) # random run to use
+mycols = c("#32004B","#0398E5","#FE6400",
+           "#0C650A","#98184B","#FDB0B0",
+           "#FE004B","#319732","#FC9500",
+           "#836C2A","#E5FE01","#6B09AA", 
+           "#4106F7","#ABDDA4","#298DEF",
+           "#BABA36","#FED790","#FE6804", 
+           "red","purple","pink","grey",
+           "blue","green","gold")
+
+for (k in k_values) {
+  # Extract admixture proportions for each K
+  qmatrix <- as.data.frame(Q(project, K = k, run = run_num))
+  
+  # Save the admixture proportions for downstream analysis
+  write.table(qmatrix, paste0("lea_admixture_k", k, ".txt"), 
+              quote = FALSE, row.names = FALSE, 
+              col.names = TRUE)
+
+  # Create barplot with population labels
+  bp <- barplot(t(as.matrix(qmatrix)), beside = FALSE, 
+                col = mycols[1:(ncol(qmatrix))],
+                ylab = "Ancestry Proportion",
+                main = paste("Admixture Proportions for K =", k),
+                border = NA, space = 0, xaxt = "n")  # Suppress default x-axis
+
+  # Add population names along x-axis
+  axis(1, at = bp, labels = pop(genind_sub), 
+       las = 2, cex.axis = 0.8)  # Rotate for readability
+}
+```
