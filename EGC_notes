@@ -349,3 +349,19 @@ Options in effect:
 Error: Invalid chromosome code 'scaffold_1' on line 241 of .vcf file.
 (Use --allow-extra-chr to force it to be accepted.)
 Warning: PLINK file conversion failed.
+
+
+Trying one more time changing the module plink download to version 2.0
+
+Submitted batch job 3513313
+
+Converting VCF to PLINK format...
+/uufs/notchpeak.peaks/sys/var/slurm/slurmd.spool/notch320//job3513313/slurm_script: line 39: plink: command not found
+Warning: PLINK file conversion failed.
+
+trying to manually load module 2.0 
+same error - 
+
+Converting VCF to PLINK format...
+/uufs/notchpeak.peaks/sys/var/slurm/slurmd.spool/notch320//job3513318/slurm_script: line 39: plink: command not found
+Warning: PLINK file conversion failed.
