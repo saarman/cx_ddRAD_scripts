@@ -321,4 +321,31 @@ It did work! The error was generated because that specific file wasnt there was 
 3/7/25 
 
 ddrad Analysis for Plate 2 
--running 9bplink 
+-Notes form Norah: try running 9bplink, not sure I ran it before or we added it in the meeting and I forgot. 
+
+
+3/9/25 
+
+Tried to run 9bplink
+-created a few files in the  cx_ddrad_filtered folder but nothing that seems super helpful.. 
+
+SLURM file output
+slurm-3513307.out
+
+The following have been reloaded with a version change:
+  1) plink/2.0 => plink/1.90
+
+Converting VCF to PLINK format...
+PLINK v1.90b5.3 64-bit (21 Feb 2018)           www.cog-genomics.org/plink/1.9/
+(C) 2005-2018 Shaun Purcell, Christopher Chang   GNU General Public License v3
+Logging to /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels.log.
+Options in effect:
+  --make-bed
+  --out /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels
+  --vcf /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate2_g70m70g50_filtered_snps_indels.vcf
+
+1031534 MB RAM detected; reserving 515767 MB for main workspace.
+
+Error: Invalid chromosome code 'scaffold_1' on line 241 of .vcf file.
+(Use --allow-extra-chr to force it to be accepted.)
+Warning: PLINK file conversion failed.
