@@ -21,7 +21,7 @@ module load bwa/2020_03_19
 #module load bwa-mem/2.2.1
 
 # Replace these variables with the actual paths and filenames
-input_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed/"
+input_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed/06-25Culex_Plate3"
 output_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa/ref/"
 
 # Permissions
