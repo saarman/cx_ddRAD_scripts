@@ -20,8 +20,8 @@
 module load fastqc/0.12.1
 
 # Input and output files
-input_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed/"
-output_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_fastqc/"
+input_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed/05-25Culex_Plate3"
+output_folder="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_fastqc/06-25CulexPlate3fq"
 
 # Create the output folder if it doesn't exist
 mkdir -p "$output_folder"
