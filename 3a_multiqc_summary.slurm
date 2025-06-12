@@ -20,7 +20,7 @@
 module load  multiqc/1.12
 
 # Input and output files
-in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_fastqc/06-25CulexPlate3fq"
+in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_fastqc/06-25CulexPlate3fq/"
 outdir="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_fastqc/06-25CulexPlate3fq/multiqc/"
 
 # Create the output folder if it doesn't exist
