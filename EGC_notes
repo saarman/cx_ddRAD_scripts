@@ -365,3 +365,7 @@ same error -
 Converting VCF to PLINK format...
 /uufs/notchpeak.peaks/sys/var/slurm/slurmd.spool/notch320//job3513318/slurm_script: line 39: plink: command not found
 Warning: PLINK file conversion failed.
+
+
+07/01/2025
+Step 5b - perl/slurm script
