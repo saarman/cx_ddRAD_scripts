@@ -15,7 +15,7 @@ module load bwa/2020_03_19
 module load samtools/1.16
 
 # Change to the directory where the input data is located
-cd /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed
+cd /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_processed/06-25Culex_Plate3
 
 # Run the Perl script with the input files
 perl /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/5b_bwa_mem.pl *.fq.gz
