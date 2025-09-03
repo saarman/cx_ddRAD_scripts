@@ -370,3 +370,12 @@ Warning: PLINK file conversion failed.
 07/01/2025
 Step 5b - perl/slurm script for plate 3
 5048862 saarman-s bwa-mem2 u1055819  R       0:02      1 notch320
+
+
+
+09/03/2025
+Outputs found in cx_ddRAD_bwa for plate 3 - in directory now, should move to 06-25 folder when finished...
+
+Going to run 6b-bwaflagstat
+
+Need to figure out popmap for these samples
