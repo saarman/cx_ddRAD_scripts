@@ -377,5 +377,9 @@ Step 5b - perl/slurm script for plate 3
 Outputs found in cx_ddRAD_bwa for plate 3 - in directory now, should move to 06-25 folder when finished...
 
 Going to run 6b-bwaflagstat
+sbatch 6b_bwa_flagstat.slurm 
+Submitted batch job 6014309
+Will save as plate3-flagstat.tsv
 
-Need to figure out popmap for these samples
+
+Need to figure out popmap for these samples for next step
