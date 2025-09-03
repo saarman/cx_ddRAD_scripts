@@ -381,8 +381,8 @@ sbatch 6b_bwa_flagstat.slurm
 Submitted batch job 6014309
 Will save as plate3-flagstat.tsv
 
-
-Need to figure out popmap for these samples for next step
-
 sbatch 6b_refmap.slurm 
-Submitted batch job 6017268
+Submitted batch job 6017407 saarman-s   stacks u1055819  R       2:06      1 notch320
+
+sbatch 7b_populations.slurm 
+Submitted batch job 6018601 -done!
