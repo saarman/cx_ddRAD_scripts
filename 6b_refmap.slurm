@@ -21,7 +21,7 @@ module load stacks/2.64
 
 # Input and output
 in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_bwa"
-popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_dummyplate2_filtered.txt"
+popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_dummyplate3filtered.txt"
 out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_stacks_filtered"
 
 # Code
