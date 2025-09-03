@@ -383,3 +383,6 @@ Will save as plate3-flagstat.tsv
 
 
 Need to figure out popmap for these samples for next step
+
+sbatch 6b_refmap.slurm 
+Submitted batch job 6017268
