@@ -35,7 +35,7 @@ cd ${out_path}
 cat ${in_file}_g70m70g50.map | awk '{print $1 "\t" $4}' > ${in_file}_g70m70g50.pos
 vcftools --vcf ${in_path}/${in_file}.vcf \
 --positions ${in_file}_g70m70g50.pos \
---recode --out cx_ddRAD_plate2_g70m70g50_filtered  # NOTE: ADJUST FINAL NAME OF VCF FILE HERE: This was the final filtering we decided to move forward with, and for plate 2
+--recode --out cx_ddRAD_plate3_g70m70g50_filtered  # NOTE: ADJUST FINAL NAME OF VCF FILE HERE: This was the final filtering we decided to move forward with, and for plate 2
 
 
 
