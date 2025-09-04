@@ -13,7 +13,7 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=emily.calhoun@usu.edu
 
-# LOAD MODULES, BCFtools (in place of vcftools)
+# LOAD MODULES, BCFtools
 module load bcftools
 
 # INPUT and OUTPUT
@@ -28,19 +28,14 @@ indel_file="indels_filtered.vcf"
 now=$(date +"%T")
 echo "Start time : $now"
 
-# CODE
-# Step 1: Retain both SNPs and indels, filter by QUAL and DP
-bcftools view -v snps,indels ${in_file} -Ou | \
-bcftools filter \
-  -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' -Ou | \
-\
-# Step 2: Filter biallelic SNPs for allele balance (AB) and minor allele frequency (MAF)
-bcftools view \
-  -m2 -M2 -v snps -Ou | \
-bcftools +fill-tags -Ou -- -t MAF | \
-bcftools filter \
- -i 'INFO/MAF >= 0.01 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.3 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.7 & GT=="0/1"' \
- -Ov -o ${snp_file}
+# Step 1 + Step 2: SNP filtering pipeline, write to file
+bcftools view -v snps ${in_file} -Ou | \
+  bcftools filter -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' -Ou | \
+  bcftools view -m2 -M2 -v snps -Ou | \
+  bcftools +fill-tags -Ou -- -t MAF | \
+  bcftools filter \
+    -i 'INFO/MAF >= 0.01 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.3 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.7 & GT=="0/1"' \
+    -Ov -o ${snp_file}
 
 # Step 3: Retain indels without further filtering
 bcftools view -v indels ${in_file} -Ov -o ${indel_file}
