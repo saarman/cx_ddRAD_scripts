@@ -386,3 +386,27 @@ Submitted batch job 6017407 saarman-s   stacks u1055819  R       2:06      1 not
 
 sbatch 7b_populations.slurm 
 Submitted batch job 6018601 -done!
+
+
+9/04/25
+sbatch 8a1_plink.slurm 
+Submitted batch job 6034528
+
+sbatch 8a2_plink2vcf.slurm
+Submitted batch job 6034575
+
+sbatch 8b_bcftools.slurm 
+Submitted batch job 6034713
+-did not create output
+-edited file to make temp files and make output 
+
+sbatch 8b_bcftools.slurm 
+Submitted batch job 6034999
+-still no output, 
+
+sbatch 8b_bcftools.slurm 
+Submitted batch job 6035024
+
+-Still not working, goingg to go back to original file
+
+
