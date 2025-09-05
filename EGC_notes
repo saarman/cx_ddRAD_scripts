@@ -409,4 +409,9 @@ Submitted batch job 6035024
 
 -Still not working, goingg to go back to original file
 
+sbatch 8b_bcftools.slurm 
+Submitted batch job 6062359
+
+*maybe need to use 8bfinal_bcftoolsABfilter.slurm and not use 8bcftools at all?
+
 
