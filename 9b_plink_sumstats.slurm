@@ -15,7 +15,7 @@
 #SBATCH --mail-type=FAIL
 
 # Load required modules for Stacks and PLINK
-module load plink/2.0
+module load plink/1.90
 
 # Define input and output paths/files
 POPMAP="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_plate3_popmap.txt"
