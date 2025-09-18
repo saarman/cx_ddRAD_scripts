@@ -36,7 +36,7 @@ fi
 
 # Convert VCF file to PLINK format
 echo "Converting VCF to PLINK format..."
-plink --vcf $IN_FILE --make-bed --out $OUT_PREFIX
+plink --vcf $IN_FILE --make-bed --allow-extra-chr --out $OUT_PREFIX
 
 # Verify that PLINK file conversion was successful
 if [[ ! -f "${OUT_PREFIX}.bed" ]]; then
