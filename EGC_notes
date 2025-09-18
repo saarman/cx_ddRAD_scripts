@@ -420,6 +420,26 @@ Submitted batch job 6062359
 
 Trying 8bfinal .... trying to figure out the difference between the two files.
 
-got 8bfinal to work for plate 3!!!!
+got 8bfinal to work for plate 3!!!!		
+
+9/18/2025
+Deciding which file to use for sumstats
+Option 1: cx_ddRAD_plate3_g70m70g50_filtered_snps_indels.vcf = out_file (SNPs + indels)
+Contains indels and SNPs.
+Stacks populations is primarily designed for SNP datasets. Including indels may cause issues, or at least add noise, since summary stats (e.g., heterozygosity, Fst) are usually based on SNPs only.
+Might inflate your statistics or complicate filtering later.
+
+Option 2: cx_ddRAD_plate3_g70m70g50_finalfiltered_snps_noindels.vcf = final_filtered (SNP-only, stricter)
+Contains only SNPs.
+Extra filtering ensures you’re working with high-confidence variants (balanced heterozygotes, reasonable allele frequencies).
+This is exactly the kind of dataset Stacks is optimized for when generating summary stats like π, Ho, He, Fst, etc.
+
+9a 
+Using option to which is filtered for no indels
+-made pop map
+slurm-6428315.out
+
+9b
+
 
 
