@@ -31,7 +31,7 @@ echo "Running Stacks populations script..."
 populations -V ${IN_FILE} --popmap $POPMAP -O ${OUT_PATH} --vcf --plink
 
 # Rename and copy the Stacks summary statistics file
-echo "Stacks summary statistics saved in: "${OUT_PATH}"
+echo "Stacks summary statistics saved in: ${OUT_PATH}"
 
 #################################
 # What This Script Does
