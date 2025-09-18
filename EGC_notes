@@ -440,6 +440,11 @@ Using option to which is filtered for no indels
 slurm-6428315.out
 
 9b
+slurm-6428550.out
 
+success! had to add flag -allow-extra-chromosomes- and change to plink 1.9 for some reason but it worked!
+
+
+*now to find out how to compare plates 2 and 3 
 
 
