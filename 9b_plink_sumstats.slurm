@@ -46,23 +46,23 @@ fi
 
 # Compute allele frequencies
 echo "Computing Allele Frequencies..."
-plink --bfile $OUT_PREFIX --freq --out ${SUMMARY_OUT}_allele_freq
+plink --bfile $OUT_PREFIX --allow-extra-chr --freq --out ${SUMMARY_OUT}_allele_freq
 
 # Compute missingness per SNP and per individual
 echo "Computing Missingness Per SNP and Per Individual..."
-plink --bfile $OUT_PREFIX --missing --out ${SUMMARY_OUT}_missing
+plink --bfile $OUT_PREFIX --allow-extra-chr --missing --out ${SUMMARY_OUT}_missing
 
 # Compute heterozygosity per individual
 echo "Computing Heterozygosity per Individual..."
-plink --bfile $OUT_PREFIX --het --out ${SUMMARY_OUT}_heterozygosity
+plink --bfile $OUT_PREFIX --allow-extra-chr --het --out ${SUMMARY_OUT}_heterozygosity
 
 # Perform Hardy-Weinberg Equilibrium (HWE) test
 echo "Performing Hardy-Weinberg Equilibrium Test..."
-plink --bfile $OUT_PREFIX --hardy --out ${SUMMARY_OUT}_hwe
+plink --bfile $OUT_PREFIX --allow-extra-chr --hardy --out ${SUMMARY_OUT}_hwe
 
 # Compute inbreeding coefficients (F-statistics)
 echo "Computing Inbreeding Coefficients (F-statistics)..."
-plink --bfile $OUT_PREFIX --het --out ${SUMMARY_OUT}_fstat
+plink --bfile $OUT_PREFIX --allow-extra-chr --het --out ${SUMMARY_OUT}_fstat
 
 #################################
 # Step 2: Merge Summary Statistics
