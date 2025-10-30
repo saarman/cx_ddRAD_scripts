@@ -446,5 +446,12 @@ success! had to add flag -allow-extra-chromosomes- and change to plink 1.9 for s
 
 
 *now to find out how to compare plates 2 and 3 
+Using R Studio Server - looking at sumstats files. trying to make plots that compare the loci and pop summaries?
 
+abplate3_popsummary					Population-level				AB3 population summary (7 pops × 5 vars)
+cbplateZ_popsummary					Population-level				CB2 population summary (10 pops × 5 vars)
+absumstats_individuals				Locus/individual-level			AB3 loci × individuals summary (216,278 rows × 21 vars)
+cbsumstats_individuals				Locus/individual-level			CB2 loci × individuals summary (103,632 rows × 21 vars)
+combinedloci_summary				Locus/individual-level			Merged AB3+CBZ (103,632 rows × 37 vars)
+combinedpop_summary					Population-level				Merged AB3+CBZ (10 rows × 9 vars)
 
