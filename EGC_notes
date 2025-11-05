@@ -455,3 +455,34 @@ cbsumstats_individuals				Locus/individual-level			CB2 loci × individuals summa
 combinedloci_summary				Locus/individual-level			Merged AB3+CBZ (103,632 rows × 37 vars)
 combinedpop_summary					Population-level				Merged AB3+CBZ (10 rows × 9 vars)
 
+
+
+
+Nov 5th, 2025
+
+Going to go back to step 6 - combine both plate 2 and 3 so we can actually compare
+-thinking i will combine everything into the cx-ddrad-bwa folder. can tell which run by the date!
+-also moving all that were in the excluded folder back into the main directory.. going to run the flagstat step 6 again but Norah advised to not remove too many early on.
+-here is the list that were removed previously that i am going to put back in the main folder
+Ab014C.bam	19.77 kB	7/1/2025 1:03:43 PM 
+Ab016J.bam	74.44 kB	7/1/2025 1:11:29 PM
+Ab017A.bam	33.15 kB	7/1/2025 1:11:31 PM
+Ab017B.bam	85.05 kB	7/1/2025 1:11:34 PM
+Ab019B.bam	7.10 kB		7/1/2025 1:11:39 PM
+Ab023B.bam	24.95 kB	7/1/2025 1:37:19 PM
+Ab024E.bam	23.53 kB	7/1/2025 1:49:23 PM
+Ab032E.bam	304.73 kB	7/1/2025 2:07:29 PM
+Cb003M.bam	11.12 kB	7/1/2025 2:13:28 PM
+Cb012E.bam	10.60 kB	12/20/2024 11:58:30 AM
+Cb014G.bam	15.89 kB	12/20/2024 12:08:13 PM
+Cb015D.bam	14.03 kB	12/20/2024 12:13:14 PM
+Cb016B.bam	32.92 kB	12/20/2024 12:16:38 PM
+Cb017H.bam	7.96 kB		12/20/2024 12:30:57 PM
+Cb018F.bam	6.89 kB		12/20/2024 12:36:02 PM
+Cb020I.bam	5.47 kB		12/20/2024 12:50:40 PM
+Cb020L.bam	25.53 kB	7/1/2025 2:18:16 PM
+Cb020M.bam	46.44 kB	7/1/2025 2:18:18 PM
+
+
+
+
