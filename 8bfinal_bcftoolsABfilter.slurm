@@ -17,12 +17,12 @@
 module load bcftools
 
 # INPUT and OUTPUT
-in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate3_g70m70g50_filtered.recode.vcf"
-out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate3_g70m70g50_filtered_snps_indels.vcf"
+in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g50_filteredstep8b.vcf"
+out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g50_step8bABfilter.vcf"
 snp_data="snp_data.txt"
 filtered_snps="filtered_snps.tsv"
 snps_to_keep="snps_to_keep.txt"
-final_filtered="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_plate3_g70m70g50_finalfiltered_snps_noindels.vcf"
+final_filtered="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g50_step8bfinalfilter.vcf.vcf"
 
 # PERMISSIONS
 # chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
