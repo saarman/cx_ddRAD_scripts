@@ -22,7 +22,7 @@ module load vcftools
 
 # Input and output
 in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output"
-in_file="populations.snps.vcf"
+in_file="populations.snps"
 out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/"
 popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_popmapcombinedexcludingcb20i.txt"
 
