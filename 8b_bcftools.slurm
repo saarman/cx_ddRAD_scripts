@@ -24,27 +24,27 @@ out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_dd
 # chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
 
 # TIMESTAMP
-now=$(date +"%T")
-echo "Start time : $now"
+echo "Start time : $(date +%T)"
 
-# CODE
-# Step 1: Filter SNPs and indels by QUAL and DP
+# --- Step 1: Filter SNPs and indels by QUAL and DP ---
+echo "Filtering by QUAL and DP..."
 bcftools view -v snps,indels ${in_file} -Ou | \
-bcftools filter -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' -Oz -o temp_qd.vcf.gz
+bcftools filter -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' -Ov -o temp_qd.vcf
 
-# Step 2: Filter biallelic SNPs for MAF and allele balance
-bcftools view -m2 -M2 -v snps temp_qd.vcf.gz -Ou | \
+# --- Step 2: Filter SNPs for MAF and allele balance ---
+echo "Filtering SNPs for MAF and allele balance..."
+bcftools view -m2 -M2 -v snps temp_qd.vcf -Ou | \
 bcftools +fill-tags -Ou -- -t MAF | \
-bcftools filter -i 'INFO/MAF >= 0.01 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.3 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.7' -Oz -o temp_snps.vcf.gz
+bcftools filter -i 'INFO/MAF >= 0.01 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.3 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.7' -Ov -o temp_snps.vcf
 
-# Step 3: Retain indels without further filtering
-bcftools view -v indels temp_qd.vcf.gz -Oz -o temp_indels.vcf.gz
+# --- Step 3: Retain indels without further filtering ---
+echo "Extracting indels..."
+bcftools view -v indels temp_qd.vcf -Ov -o temp_indels.vcf
 
-# Step 4: Combine filtered SNPs and indels
-bcftools concat -a temp_snps.vcf.gz temp_indels.vcf.gz -Oz -o ${out_file}
+# --- Step 4: Combine filtered SNPs and indels ---
+echo "Concatenating filtered SNPs and indels..."
+bcftools concat -a temp_snps.vcf temp_indels.vcf -Ov -o ${out_file}
 
-
-# TIMESTAMP
-now=$(date +"%T")
-echo "Pipeline completed successfully"
-echo "End time : $now"
+echo "Filtering complete."
+echo "Output written to: ${out_file}"
+echo "End time : $(date +%T)"
