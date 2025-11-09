@@ -492,6 +492,120 @@ running into error with Cb020I , checked and it only has 20 reads!
 
 *Everything else worked great! Output files in /cx-ddrad-stacks-filtered
 
+Running 7-populations now!
+
+Logging to '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output/populations.log'.
+Locus/sample distributions will be written to '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output/populations.log.distribs'.
+populations parameters selected:
+  Percent samples limit per population: 0.25
+  Locus Population limit: 1
+  Percent samples overall: 0
+  Minor allele frequency cutoff: 0
+  Maximum observed heterozygosity cutoff: 1
+  Applying Fst correction: none.
+  Pi/Fis kernel smoothing: off
+  F-stats kernel smoothing: off
+  Bootstrap resampling: off
+
+Parsing population map...
+The population map contained 186 samples, 1 population(s), 1 group(s).
+Working on 186 samples.
+Working on 1 population(s):
+    All: Ab001F, Ab001G, Ab005A, Ab006A, Ab006B, Ab006C, Ab006D, Ab006E, Ab006F, Ab007A, Ab007B, Ab007C, Ab007D, Ab007E, Ab007F, Ab007G, 
+         Ab007H, Ab011A, Ab012A, Ab012B, Ab012C, Ab013A, Ab014A, Ab014B, Ab014C, Ab014D, Ab014E, Ab014F, Ab015A, Ab016F, Ab016G, Ab016H, 
+         Ab016I, Ab016J, Ab017A, Ab017B, Ab019A, Ab019B, Ab021A, Ab021B, Ab021C, Ab021D, Ab021E, Ab021F, Ab021G, Ab022A, Ab022B, Ab022C, 
+         Ab022D, Ab022E, Ab023A, Ab023B, Ab023C, Ab023D, Ab023E, Ab024A, Ab024B, Ab024C, Ab024D, Ab024E, Ab024F, Ab025A, Ab027A, Ab027B, 
+         Ab030A, Ab030B, Ab030C, Ab030D, Ab031A, Ab031B, Ab031C, Ab032A, Ab032B, Ab032C, Ab032D, Ab032E, Cb001Ir, Cb001K, Cb001L, 
+         Cb001M, Cb001N, Cb002H, Cb003K, Cb003L, Cb003M, Cb003N, Cb003O, Cb003P, Cb011L, Cb012A, Cb012B, Cb012C, Cb012D, Cb012E, Cb012F, 
+         Cb012G, Cb012H, Cb012I, Cb012J, Cb012K, Cb013A, Cb013B, Cb013C, Cb013D, Cb013E, Cb013F, Cb013G, Cb013H, Cb013I, Cb013J, Cb013K, 
+         Cb014A, Cb014B, Cb014C, Cb014D, Cb014E, Cb014F, Cb014G, Cb014H, Cb014I, Cb014J, Cb014K, Cb015A, Cb015B, Cb015C, Cb015D, Cb015E, 
+         Cb015F, Cb015G, Cb015H, Cb015I, Cb015J, Cb016A, Cb016B, Cb016C, Cb016D, Cb016E, Cb016F, Cb016G, Cb016H, Cb016I, Cb016J, Cb017A, 
+         Cb017B, Cb017C, Cb017D, Cb017E, Cb017F, Cb017G, Cb017H, Cb017I, Cb017J, Cb018A, Cb018B, Cb018C, Cb018D, Cb018E, Cb018F, Cb018G, 
+         Cb018H, Cb018I, Cb018J, Cb018K, Cb019A, Cb019B, Cb019C, Cb019D, Cb019E, Cb019F, Cb019G, Cb019H, Cb019I, Cb019J, Cb01IR, Cb020A, 
+         Cb020B, Cb020C, Cb020D, Cb020E, Cb020F, Cb020G, Cb020H, Cb020J, Cb020K, Cb020L, Cb020M
+Working on 1 group(s) of populations:
+    defaultgrp: All
+
+SNPs and calls will be written in VCF format to '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output/populations.snps.vcf'
+Polymorphic sites in PLINK format will be written to '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output/populations.plink.ped'
+Raw haplotypes will be written to '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output/populations.haplotypes.tsv'
+Population-level summary statistics will be written to '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output/populations.sumstats.tsv'
+Population-level haplotype summary statistics will be written to '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output/populations.hapstats.tsv'
+
+Processing data in batches:
+  * load a batch of catalog loci and apply filters
+  * compute SNP- and haplotype-wise per-population statistics
+  * write the above statistics in the output files
+  * export the genotypes/haplotypes in specified format(s)
+More details in '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output/populations.log.distribs'.
+
+Now processing...
+scaffold_1 
+scaffold_10 
+scaffold_101 
+scaffold_104 
+scaffold_112 
+scaffold_113 
+scaffold_115 
+scaffold_12 
+scaffold_121 
+scaffold_13 
+scaffold_145 
+scaffold_148 
+scaffold_15 
+scaffold_151 
+scaffold_16 
+scaffold_160 
+scaffold_164 
+scaffold_17 
+scaffold_18 
+scaffold_184 
+scaffold_186 
+scaffold_19 
+scaffold_196 
+scaffold_2 
+scaffold_211 
+scaffold_213 
+scaffold_215 
+scaffold_216 
+scaffold_222 
+scaffold_225 
+scaffold_235 
+scaffold_24 
+scaffold_243 
+scaffold_245 
+scaffold_249 
+scaffold_25 
+scaffold_250 
+scaffold_251 
+scaffold_257 
+scaffold_261 
+scaffold_265 
+scaffold_3 
+scaffold_33 
+scaffold_34 
+scaffold_38 
+scaffold_4 
+scaffold_47 
+scaffold_5 
+scaffold_58 
+scaffold_59 
+scaffold_62 
+scaffold_69 
+scaffold_7 
+scaffold_75 
+scaffold_78 
+scaffold_8 
+scaffold_9 
+
+Removed 451193 loci that did not pass sample/population constraints from 486620 loci.
+Kept 35427 loci, composed of 11785396 sites; 218996 of those sites were filtered, 33580 variant sites remained.
+    11574699 genomic sites, of which 208102 were covered by multiple loci (1.8%).
+Mean genotyped sites per locus: 332.48bp (stderr 0.08).
+
+Population summary statistics (more detail in populations.sumstats_summary.tsv):
+  All: 72.068 samples per locus; pi: 0.1236; all/variant/polymorphic sites: 11778665/33580/33580; private alleles: 0
+Populations is done.
 
 
 
