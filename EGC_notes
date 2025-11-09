@@ -483,8 +483,15 @@ Cb020I.bam	5.47 kB		12/20/2024 12:50:40 PM
 Cb020L.bam	25.53 kB	7/1/2025 2:18:16 PM
 Cb020M.bam	46.44 kB	7/1/2025 2:18:18 PM
 
+NOv 7th
+ok did 6a again, now 6b - 
 
-Nov 6th
+running into error with Cb020I , checked and it only has 20 reads! 
+-Trying to decide if it is worth going back and trying to redo this one sample or exclude it move on with the rest, then go back if we want..
+-Ok decided, moved Cb020I to cx_ddRAD_bwa/excluded directory. going to try to rerun and see if everyone else works now.
+
+*Everything else worked great! Output files in /cx-ddrad-stacks-filtered
+
 
 
 
