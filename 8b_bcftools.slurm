@@ -28,26 +28,20 @@ now=$(date +"%T")
 echo "Start time : $now"
 
 # CODE
-# Step 1: Retain both SNPs and indels, filter by QUAL and DP
+# Step 1: Filter SNPs and indels by QUAL and DP
 bcftools view -v snps,indels ${in_file} -Ou | \
-bcftools filter \
-  -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' -Ou | \
+bcftools filter -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' -Oz -o temp_qd.vcf.gz
 
-# Step 2: Filter biallelic SNPs for allele balance (AB) and minor allele frequency (MAF)
-bcftools view \
-  -m2 -M2 -v snps -Ou | \
+# Step 2: Filter biallelic SNPs for MAF and allele balance
+bcftools view -m2 -M2 -v snps temp_qd.vcf.gz -Ou | \
 bcftools +fill-tags -Ou -- -t MAF | \
-bcftools filter \
- -i 'INFO/MAF >= 0.01 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.3 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.7 & GT=="0/1"' -Ou | \
-
-# -i 'INFO/MAF >= 0.01 & FORMAT/AB > 0.3 & FORMAT/AB < 0.7' -Ou | \
+bcftools filter -i 'INFO/MAF >= 0.01 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.3 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.7' -Oz -o temp_snps.vcf.gz
 
 # Step 3: Retain indels without further filtering
-bcftools view -v indels ${in_file} -Ou | \
+bcftools view -v indels temp_qd.vcf.gz -Oz -o temp_indels.vcf.gz
 
 # Step 4: Combine filtered SNPs and indels
-bcftools concat -a -o ${out_file}
-
+bcftools concat -a temp_snps.vcf.gz temp_indels.vcf.gz -Oz -o ${out_file}
 
 
 # TIMESTAMP
