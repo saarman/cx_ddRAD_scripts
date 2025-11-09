@@ -22,7 +22,7 @@ out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_dd
 snp_data="snp_data.txt"
 filtered_snps="filtered_snps.tsv"
 snps_to_keep="snps_to_keep.txt"
-final_filtered="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g50_step8bfinalfilter.vcf.vcf"
+final_filtered="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g50_step8bfinalfilter.vcf"
 
 # PERMISSIONS
 # chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
