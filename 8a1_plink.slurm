@@ -45,7 +45,7 @@ plink --file ${in_file}_m70 --geno .6 --double-id --allow-extra-chr --recode --o
 plink --file ${in_file}_g60 --mind .6 --double-id --allow-extra-chr --recode --out ${in_file}_m60    >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
 plink --file ${in_file}_m60 --geno .5 --double-id --allow-extra-chr --recode --out ${in_file}_g50    >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
 plink --file ${in_file}_g50 --mind .5 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70g60m60g50m50    >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
-plink --file ${in_file}_g70m70g60m60g50m50 --missing 
+plink --file ${in_file}_g70m70g60m60g50m50 --allow-extra-chr --missing 
 
 # MED FILTER FOR GENO, SOFT FILTER FOR MIND
 #PLINK to filter by missing data with SOFT filter for mind, note this threshold is how much MISSING data is allowed, not how COMPLETE it needs to be (as it is with STACKS)
@@ -53,7 +53,7 @@ cp /dev/null ${in_file}_g70m70g50_plink_log.txt
 plink --file ${in_file} --geno .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70           >> ${in_file}_g70m70g50_plink_log.txt
 plink --file ${in_file}_g70 --mind .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70    >> ${in_file}_g70m70g50_plink_log.txt
 plink --file ${in_file}_g70m70 --geno .5 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70g50    >> ${in_file}_g70m70g50_plink_log.txt
-plink --file ${in_file}_g70m70g50  --missing 
+plink --file ${in_file}_g70m70g50 --allow-extra-chr --missing 
 
 # HARD FILTER FOR GENO, SOFT FILTER FOR MIND 
 #PLINK to filter by missing data with HARD filter for geno and SOFT filter for mind, note this threshold is how much MISSING data is allowed, not how COMPLETE it needs to be (as it is with STACKS)
@@ -61,7 +61,7 @@ cp /dev/null ${in_file}_g70m70g20_plink_log.txt
 plink --file ${in_file} --geno .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70           >> ${in_file}_g70m70g20_plink_log.txt
 plink --file ${in_file}_g70 --mind .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70    >> ${in_file}_g70m70g20_plink_log.txt
 plink --file ${in_file}_g70m70 --geno .2 --double-id --allow-extra-chr --recode --out ${in_file}_g70m70g20    >> ${in_file}_g70m70g20_plink_log.txt
-plink --file ${in_file}_g70m70g20  --missing 
+plink --file ${in_file}_g70m70g20 --allow-extra-chr --missing 
 
 
 
