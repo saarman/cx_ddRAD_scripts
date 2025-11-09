@@ -36,7 +36,7 @@ cd ${out_path}
 plink --vcf ${in_path}/${in_file}.vcf --double-id --allow-extra-chr --make-bed --out ./${in_file}
 plink --bfile ./${in_file} --double-id --allow-extra-chr --recode tab --out ./${in_file}
 
-MEDIUM FILTER FOR EVERYTHING
+# MEDIUM FILTER FOR EVERYTHING
 #PLINK to filter by missing data, note this threshold is how much MISSING data is allowed, not how COMPLETE it needs to be (as it is with STACKS)
 cp /dev/null ${in_file}_g70m70g60m60g50m50_plink_log.txt
 plink --file ${in_file} --geno .7 --double-id --allow-extra-chr --recode --out ${in_file}_g70        >> ${in_file}_g70m70g60m60g50m50_plink_log.txt
