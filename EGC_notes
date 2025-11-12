@@ -645,5 +645,13 @@ The FORMAT tag AD can have multiple subfields, run as AD[sample:subfield]
 Pipeline completed successfully
 End time : 10:02:52
 
+*Went back and found out i was missing 5 pops!!! Ab01A-E Adding them back into popmap and rerunning steps 6b and 7
+
+sbatch 6b_popmap.slurm 
+Submitted batch job 8329553
+output should be in /stacksfiltered
+8329553 saarman-s   stacks u1055819  R      1:01:42       1 notch320 - taking a while
+
+
 
 
