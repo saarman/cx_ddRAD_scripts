@@ -17,15 +17,19 @@
 module load bcftools
 
 # INPUT and OUTPUT
-in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g50_filteredstep8b.vcf"
-out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g50_step8bABfilter.vcf"
+filter_include="g70m70g20"             # NOTE: This is where you choose which filtered output from geno/mind/plink you will use going forward
+plate_name="cx_ddRAD_combined2-3"      # NOTE: This is where you choose which plate/root name of file
+in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/${plate_name}_${filter_include}_filtered.recode.vcf"
+out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/${plate_name}_${filter_include}_ABfiltered.vcf"
+
+# TEMPORARY FILES
 snp_data="snp_data.txt"
 filtered_snps="filtered_snps.tsv"
 snps_to_keep="snps_to_keep.txt"
-final_filtered="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g50_step8bfinalfilter.vcf"
+temp_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/tempfile_snps_indels.vcf"
 
 # PERMISSIONS
-# chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
+chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
 
 # TIMESTAMP
 now=$(date +"%T")
@@ -44,7 +48,7 @@ bcftools filter -i 'INFO/MAF >= 0.01 & FORMAT/AD[1]/(FORMAT/AD[0]+FORMAT/AD[1]) 
 bcftools view -v indels ${in_file} -Ou | \
 
 # Step 4: Combine filtered SNPs and indels into a single file
-bcftools concat -a -o ${out_file}
+bcftools concat -a -o ${temp_file}
 
 # Step 5: Extract Genotype (GT) and Allelic Depth (AD) Fields for SNPs
 bcftools query -f '%CHROM\t%POS\t%ID\t[%GT\t%AD\t]\n' ${in_file} > ${snp_data}
@@ -81,7 +85,13 @@ BEGIN { OFS="\t" }
 cut -f1,2 ${filtered_snps} > ${snps_to_keep}
 
 # Step 8: Filter VCF to Retain Only the Selected SNPs
-bcftools view -T ${snps_to_keep} ${in_file} -o ${final_filtered}
+bcftools view -T ${snps_to_keep} ${in_file} -o ${out_file}
+
+# Step 9: Remove temp file
+rm ${temp_file}
+
+# PERMISSIONS
+chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
 
 # TIMESTAMP
 now=$(date +"%T")
