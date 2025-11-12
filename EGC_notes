@@ -414,8 +414,6 @@ Submitted batch job 6062359
 
 *maybe need to use 8bfinal_bcftoolsABfilter.slurm and not use 8bcftools at all?
 
-
-
 9/17/2025
 
 Trying 8bfinal .... trying to figure out the difference between the two files.
@@ -482,6 +480,7 @@ Cb018F.bam	6.89 kB		12/20/2024 12:36:02 PM
 Cb020I.bam	5.47 kB		12/20/2024 12:50:40 PM
 Cb020L.bam	25.53 kB	7/1/2025 2:18:16 PM
 Cb020M.bam	46.44 kB	7/1/2025 2:18:18 PM
+
 
 NOv 7th
 ok did 6a again, now 6b - 
@@ -614,7 +613,37 @@ Populations is done.
 8b_bcf filter causing issues. troubleshooting slurm7976537
 tried to fix... idk what the issue was
 moving on to 8b_AB filter = 7976595
+*didnt work either. something about zipped files?
 
+11/12/25 
+trying 8b_bcf again. i think it is something to do with file types like its not reading the vcf files because its bcf? can I just load both modules or is there a way to transform...
+
+says this but the output file is empty: 
+
+Options:
+   -a, --allow-overlaps           First coordinate of the next file can precede last record of the current file.
+   -c, --compact-PS               Do not output PS tag at each site, only at the start of a new phase set block.
+   -d, --rm-dups STRING           Output duplicate records present in multiple files only once: <snps|indels|both|all|exact>
+   -D, --remove-duplicates        Alias for -d exact
+   -f, --file-list FILE           Read the list of files from a file.
+   -l, --ligate                   Ligate phased VCFs by matching phase at overlapping haplotypes
+       --ligate-force             Ligate even non-overlapping chunks, keep all sites
+       --ligate-warn              Drop sites in imperfect overlaps
+       --no-version               Do not append version and command line to the header
+   -n, --naive                    Concatenate files without recompression, a header check compatibility is performed
+       --naive-force              Same as --naive, but header compatibility is not checked. Dangerous, use with caution.
+   -o, --output FILE              Write output to a file [standard output]
+   -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]
+   -q, --min-PQ INT               Break phase set if phasing quality is lower than <int> [30]
+   -r, --regions REGION           Restrict to comma-separated list of regions
+   -R, --regions-file FILE        Restrict to regions listed in a file
+       --regions-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+       --threads INT              Use multithreading with <int> worker threads [0]
+   -v, --verbose 0|1              Set verbosity level [1]
+
+The FORMAT tag AD can have multiple subfields, run as AD[sample:subfield]
+Pipeline completed successfully
+End time : 10:02:52
 
 
 
