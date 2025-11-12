@@ -24,7 +24,7 @@ module load vcftools
 in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output"
 in_file="populations.snps"
 out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/"
-popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_popmapcombinedexcludingcb20i.txt"
+popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_popmapcombined-fixed11-12.txt"
 
 # CODE 
 
