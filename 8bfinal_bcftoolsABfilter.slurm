@@ -85,5 +85,5 @@ bcftools view -T ${snps_to_keep} ${in_file} -o ${final_filtered}
 
 # TIMESTAMP
 now=$(date +"%T")
-echo "Pipeline completed successfully"
+echo "BCFtools pipeline, including AB filter, completed successfully."
 echo "End time : $now"
