@@ -25,7 +25,8 @@ in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_out
 in_file="populations.snps"
 out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/"
 popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_popmapcombined-fixed11-12.txt"
-filter_include="g70m70g20"    # NOTE: This is where you choose which filtered output from geno and mind you will use going forward
+filter_include="g70m70g20"             # NOTE: This is where you choose which filtered output from geno/mind/plink you will use going forward
+plate_name="cx_ddRAD_combined2-3"      # NOTE: This is where you choose which plate/root name of file
 
 # CODE 
 
@@ -37,7 +38,7 @@ cat ${in_file}_${filter_include}.map | awk '{print $1 "\t" $4}' > ${in_file}_${f
 vcftools --vcf ${in_path}/${in_file}.vcf \
 --positions ${in_file}_${filter_include}.pos \
 --keep ${in_file}_${filter_include}.nosex \
---recode --out cx_ddRAD_combined2-3_${filter_include}_filtered.recode  
+--recode --out ${plate_name}_${filter_include}_filtered.recode  
 
 
 # CODE USAGE
