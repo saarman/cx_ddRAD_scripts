@@ -36,7 +36,7 @@ cd ${out_path}
 cat ${in_file}_${filter_include}.map | awk '{print $1 "\t" $4}' > ${in_file}_${filter_include}.pos
 vcftools --vcf ${in_path}/${in_file}.vcf \
 --positions ${in_file}_${filter_include}.pos \
---keep ${in_file}_${filter_include}.fam \
+--keep ${in_file}_${filter_include}.nosex \
 --recode --out cx_ddRAD_combined2-3_${filter_include}_filtered.recode  
 
 
