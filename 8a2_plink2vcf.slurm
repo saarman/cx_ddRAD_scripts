@@ -25,6 +25,7 @@ in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_out
 in_file="populations.snps"
 out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/"
 popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_popmapcombined-fixed11-12.txt"
+filter_include="g70m70g20"
 
 # CODE 
 
@@ -32,12 +33,11 @@ popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_popma
 cd ${out_path}
 
 #Extract sites from those that passed missing filters:
-cat ${in_file}_g70m70g50.map | awk '{print $1 "\t" $4}' > ${in_file}_g70m70g50.pos
+cat ${in_file}_${filter_include}.map | awk '{print $1 "\t" $4}' > ${in_file}_${filter_include}.pos
 vcftools --vcf ${in_path}/${in_file}.vcf \
---positions ${in_file}_g70m70g50.pos \
---recode --out cx_ddRAD_combined2-3_g70m70g50_filtered.recode  # NOTE: ADJUST FINAL NAME OF VCF FILE HERE: This was the final filtering we decided to move forward with, and for plate 2
-
-
+--positions ${in_file}_${filter_include}.pos \
+--keep ${in_file}_${filter_include}.fam \
+--recode --out cx_ddRAD_combined2-3_${filter_include}_filtered.recode  
 
 
 # CODE USAGE
