@@ -747,3 +747,48 @@ chmod: changing permissions of '/uufs/chpc.utah.edu/common/home/u1055819/saarman
 
 
 Now for step 9!
+*edited to make the input the output of the previous script, added the flags that Norah used. lets see if it works
+sbatch 9a_stacks_sumstats.slurm 
+Submitted batch job 8436559
+
+The population map contained 191 samples, 1 population(s), 1 group(s).
+Opening the VCF file...
+Warning: Of the samples listed in the population map, 45 could not be found in the VCF :Working on 146 samples.
+Working on 1 population(s):
+    All: Ab001A, Ab001B, Ab001C, Ab001D, Ab001E, Ab001G, Ab005A, Ab006A, Ab006B, Ab006C, Ab006D, Ab006E, Ab007A, Ab007B, Ab007C, Ab007D, 
+         Ab007E, Ab007F, Ab007G, Ab011A, Ab012A, Ab012C, Ab014A, Ab014B, Ab014D, Ab014E, Ab014F, Ab015A, Ab016H, Ab021A, Ab021B, Ab021C, 
+         Ab021D, Ab021E, Ab021G, Ab022A, Ab022B, Ab022C, Ab022D, Ab022E, Ab023A, Ab023C, Ab023D, Ab023E, Ab024A, Ab024B, Ab024C, Ab024D, 
+         Ab024F, Ab025A, Ab027A, Ab027B, Ab030A, Ab030B, Ab030C, Ab031A, Ab031B, Ab031C, Ab032C, Ab032D, Cb001Ir, Cb001K, Cb001L, 
+         Cb001M, Cb001N, Cb002H, Cb003K, Cb003L, Cb003N, Cb003O, Cb003P, Cb011L, Cb012A, Cb012B, Cb012C, Cb012D, Cb012F, Cb012G, Cb012H, 
+         Cb012I, Cb012J, Cb012K, Cb013A, Cb013C, Cb013D, Cb013E, Cb013F, Cb013G, Cb013H, Cb013I, Cb013K, Cb014A, Cb014C, Cb014D, Cb014E, 
+         Cb014F, Cb014H, Cb014I, Cb014J, Cb014K, Cb015A, Cb015B, Cb015E, Cb015F, Cb015G, Cb015H, Cb015I, Cb015J, Cb016A, Cb016C, Cb016D, 
+         Cb016E, Cb016F, Cb016G, Cb016H, Cb016I, Cb017B, Cb017C, Cb017E, Cb017I, Cb017J, Cb018A, Cb018B, Cb018C, Cb018D, Cb018G, Cb018H, 
+         Cb018I, Cb018J, Cb018K, Cb019A, Cb019B, Cb019D, Cb019G, Cb019H, Cb019I, Cb019J, Cb01IR, Cb020B, Cb020C, Cb020D, Cb020E, Cb020G, 
+         Cb020H, Cb020J, Cb020K
+Working on 1 group(s) of populations:
+    defaultgrp: All
+
+*oops was i supposed to edit the popmap and remove those that did not pass the filter?
+
+Now processing...
+scaffold_1 
+scaffold_15 
+scaffold_2 
+scaffold_225 
+scaffold_3 
+scaffold_59 
+scaffold_75 
+Found 1418 SNP records in file '/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g20_ABfiltered.vcf'. (Skipped 0 already filtered-out SNPs and 0 non-SNP records ; more with --verbose.)
+
+Removed 0 loci that did not pass sample/population constraints from 1418 loci.
+Kept 1418 loci, composed of 1418 sites; 0 of those sites were filtered, 1418 variant sites remained.
+    1417 genomic sites, of which 1 were covered by multiple loci (0.1%).
+Mean genotyped sites per locus: 1.00bp (stderr 0.00).
+
+Population summary statistics (more detail in populations.sumstats_summary.tsv):
+  All: 124.78 samples per locus; pi: 0.047358; all/variant/polymorphic sites: 1418/1418/1418; private alleles: 0
+Populations is done.
+Stacks summary statistics saved in: /uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/
+
+
+ok 9b now!
