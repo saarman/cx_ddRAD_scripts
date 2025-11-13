@@ -653,5 +653,56 @@ output should be in /stacksfiltered
 8329553 saarman-s   stacks u1055819  R      1:01:42       1 notch320 - taking a while
 
 
+11/12/25 
+Had to contact help desk because my group path disappeared?! Made a symlink so now I  have this as a path to the saarman group but will need to remember to change all the scripts to this :(
+here is how i created symlink in terminal: 
+ln -s /uufs/chpc.utah.edu/common/home/saarman-group1/ saarman-group
 
+so now my path is this:
 
+/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/
+
+11/13/25 
+Ok moving on! Onto 7pop
+Parsing population map...
+The population map contained 191 samples, 1 population(s), 1 group(s).
+Working on 191 samples.
+Working on 1 population(s):
+    All: Ab001A, Ab001B, Ab001C, Ab001D, Ab001E, Ab001F, Ab001G, Ab005A, Ab006A, Ab006B, Ab006C, Ab006D, Ab006E, Ab006F, Ab007A, Ab007B, 
+         Ab007C, Ab007D, Ab007E, Ab007F, Ab007G, Ab007H, Ab011A, Ab012A, Ab012B, Ab012C, Ab013A, Ab014A, Ab014B, Ab014C, Ab014D, Ab014E, 
+         Ab014F, Ab015A, Ab016F, Ab016G, Ab016H, Ab016I, Ab016J, Ab017A, Ab017B, Ab019A, Ab019B, Ab021A, Ab021B, Ab021C, Ab021D, Ab021E, 
+         Ab021F, Ab021G, Ab022A, Ab022B, Ab022C, Ab022D, Ab022E, Ab023A, Ab023B, Ab023C, Ab023D, Ab023E, Ab024A, Ab024B, Ab024C, Ab024D, 
+         Ab024E, Ab024F, Ab025A, Ab027A, Ab027B, Ab030A, Ab030B, Ab030C, Ab030D, Ab031A, Ab031B, Ab031C, Ab032A, Ab032B, Ab032C, Ab032D, 
+         Ab032E, Cb001Ir, Cb001K, Cb001L, Cb001M, Cb001N, Cb002H, Cb003K, Cb003L, Cb003M, Cb003N, Cb003O, Cb003P, Cb011L, Cb012A, 
+         Cb012B, Cb012C, Cb012D, Cb012E, Cb012F, Cb012G, Cb012H, Cb012I, Cb012J, Cb012K, Cb013A, Cb013B, Cb013C, Cb013D, Cb013E, Cb013F, 
+         Cb013G, Cb013H, Cb013I, Cb013J, Cb013K, Cb014A, Cb014B, Cb014C, Cb014D, Cb014E, Cb014F, Cb014G, Cb014H, Cb014I, Cb014J, Cb014K, 
+         Cb015A, Cb015B, Cb015C, Cb015D, Cb015E, Cb015F, Cb015G, Cb015H, Cb015I, Cb015J, Cb016A, Cb016B, Cb016C, Cb016D, Cb016E, Cb016F, 
+         Cb016G, Cb016H, Cb016I, Cb016J, Cb017A, Cb017B, Cb017C, Cb017D, Cb017E, Cb017F, Cb017G, Cb017H, Cb017I, Cb017J, Cb018A, Cb018B, 
+         Cb018C, Cb018D, Cb018E, Cb018F, Cb018G, Cb018H, Cb018I, Cb018J, Cb018K, Cb019A, Cb019B, Cb019C, Cb019D, Cb019E, Cb019F, Cb019G, 
+         Cb019H, Cb019I, Cb019J, Cb01IR, Cb020A, Cb020B, Cb020C, Cb020D, Cb020E, Cb020F, Cb020G, Cb020H, Cb020J, Cb020K, Cb020L, Cb020M
+
+Yay - correct amount of samples for 2 plates minus Cb020I that had ~20 reads and i removed manually
+
+Now for 8a1_plink - all looks good! filtering options available. 34018 variants before filtering. going to go ahead with the hard filter for Geno soft filter for Mind to retain the most individuals and the least SNPs so we know they are high quality and less to deal with
+*added info to Cx_ddRAD_plink google sheet
+Now for 8a2 = slurm output 8435992
+
+VCFtools - 0.1.15
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf /uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_populations_output/populations.snps.vcf
+	--keep populations.snps_g70m70g20.nosex
+	--out cx_ddRAD_combined2-3_g70m70g20_filtered.recode
+	--positions populations.snps_g70m70g20.pos
+	--recode
+
+Keeping individuals in 'keep' list
+After filtering, kept 146 out of 191 Individuals
+Outputting VCF file...
+After filtering, kept 1636 out of a possible 34018 Sites
+Run Time = 0.00 seconds
+
+*saved as recode.recode.vcf maybe should change? i just went with it this time
+
+Now for 8b! 8436128 *chmod errors potentially. going to comment out the first chmod line of code and rerun
