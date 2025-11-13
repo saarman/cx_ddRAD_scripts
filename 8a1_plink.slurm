@@ -21,10 +21,10 @@ module load plink
 module load vcftools
 
 # Input and output
-in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output"
+in_path="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_populations_output"
 in_file="populations.snps"
-out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/"
-popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_popmapcombined-fixed11-12.txt"
+out_path="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/"
+popmap="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_scripts/cx_popmapcombined-fixed11-12.txt"
 
 
 # Code
