@@ -19,17 +19,17 @@ module load bcftools
 # INPUT and OUTPUT
 filter_include="g70m70g20"             # NOTE: This is where you choose which filtered output from geno/mind/plink you will use going forward
 plate_name="cx_ddRAD_combined2-3"      # NOTE: This is where you choose which plate/root name of file
-in_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/${plate_name}_${filter_include}_filtered.recode.vcf"
-out_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/${plate_name}_${filter_include}_ABfiltered.vcf"
+in_file="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/${plate_name}_${filter_include}_filtered.recode.vcf"
+out_file="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/${plate_name}_${filter_include}_ABfiltered.vcf"
 
 # TEMPORARY FILES
 snp_data="snp_data.txt"
 filtered_snps="filtered_snps.tsv"
 snps_to_keep="snps_to_keep.txt"
-temp_file="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/tempfile_snps_indels.vcf"
+temp_file="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/tempfile_snps_indels.vcf"
 
 # PERMISSIONS
-chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
+chmod -R g+w /uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD*
 
 # TIMESTAMP
 now=$(date +"%T")
@@ -91,7 +91,7 @@ bcftools view -T ${snps_to_keep} ${in_file} -o ${out_file}
 rm ${temp_file}
 
 # PERMISSIONS
-chmod -R g+w /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD*
+chmod -R g+w /uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD*
 
 # TIMESTAMP
 now=$(date +"%T")
