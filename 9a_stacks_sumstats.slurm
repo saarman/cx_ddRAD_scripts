@@ -18,11 +18,12 @@
 module load stacks/2.64
 
 # Define input and output paths/files
+filter_include="g70m70g20"             # NOTE: This is where you choose which filtered output from geno/mind/plink you will use going forward
+plate_name="cx_ddRAD_combined2-3"      # NOTE: This is where you choose which plate/root name of file
 POPMAP="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_scripts/cx_popmapcombined-fixed11-12.txt"
-IN_FILE="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/cx_ddRAD_plate3_g70m70g50_finalfiltered_snps_noindels.vcf"
-OUT_PREFIX="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/cx_ddRAD_plate3_g70m70g50_final_snps"
+IN_FILE="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/${plate_name}_${filter_include}_ABfiltered.vcf"
 OUT_PATH="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/"                                             
-SUMMARY_OUT="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/cx_ddRAD_plate3_g70m70g50_final_snps_summary"
+SUMMARY_OUT="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/${plate_name}_${filter_include}_finalsummary"
 
 #################################
 # Step 1: Run Stacks populations
