@@ -29,7 +29,7 @@ snps_to_keep="snps_to_keep.txt"
 temp_file="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/tempfile_snps_indels.vcf"
 
 # PERMISSIONS
-chmod -R g+w /uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD*
+# chmod -R g+w /uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD*
 
 # TIMESTAMP
 now=$(date +"%T")
