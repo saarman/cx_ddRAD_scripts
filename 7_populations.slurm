@@ -20,9 +20,9 @@
 module load stacks/2.64
 
 # Input and output
-out_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_populations_output"
-popmap="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/cx_popmapcombined-fixed11-12.txt"
-in_path="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_stacks_filtered"
+out_path="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_populations_output"
+popmap="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_scripts/cx_popmapcombined-fixed11-12.txt"
+in_path="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_stacks_filtered"
 
 # Code
 populations -P $in_path --popmap $popmap -O $out_path -p 1 -r 0.25 -t 8 --write-random-snp --vcf --plink 
