@@ -1,0 +1,154 @@
+---
+title: "plates2-3combinedPCA"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries}
+#install.packages("ggplot2")
+library(ggplot2)
+#install.packages("vcfR")
+library(vcfR)
+#install.packages("LEA")
+library(LEA)
+#install.packages("adegenet")
+library(adegenet)
+```
+## Import VCF, run PCA
+```{r import}
+# Import from file
+vcf <- read.vcfR("cx_ddRAD_combined2-3_g70m70g20_ABfiltered.p.snps.vcf")
+
+#indNames(vcf)
+#length(indNames(vcf))
+sample_ids <- colnames(vcf@gt)[-1]
+sample_ids
+length(sample_ids)
+
+# Convert the VCF object to a genind object
+genind_obj <- vcfR2genind(vcf)
+
+# Extract alphabetic prefix + digits, remove trailing letters
+pop_labels <- sub("^([A-Za-z]+\\d+).*", "\\1", indNames(genind_obj))
+
+# Assign populations
+pop(genind_obj) <- as.factor(pop_labels)
+
+# Check counts
+table(pop(genind_obj))
+
+```
+
+Visualize genetic variation with PCA
+```{r pca}
+# Convert genind object to a data frame
+genind_df <- tab(genind_obj, NA.method = "mean")
+
+# Run PCA
+pca_result3 <- dudi.pca(genind_df, cent = TRUE, scale = TRUE, scannf = FALSE, nf = 4)
+```
+
+
+
+
+```{r}
+# Extract unique population names from the genind object
+pop_names <- unique(pop(genind_obj))
+num_pops <- length(pop_names)  
+
+# Define preferred color palette
+mycols <- c("#32004B","#0398E5","#FE6400","#0C650A","#98184B","#FDB0B0",
+            "#FE004B","#319732","#FC9500","#836C2A","#E5FE01","#6B09AA", 
+            "#4106F7","#ABDDA4","#298DEF","#BABA36","#FED790","#FE6804", 
+            "red","purple","pink","grey","blue","green","gold")  
+
+# Assign colors, repeating if necessary
+site_colors <- setNames(rep(mycols, length.out = num_pops), pop_names)
+
+# Extract population codes and match them to colors
+pop_codes <- as.character(pop(genind_obj))
+pop_colors <- site_colors[pop_codes]
+
+# Assign default color ("black") to any missing populations
+pop_colors[is.na(pop_colors)] <- "black"
+
+# Set up layout with two columns (one for PCA, one for legend)
+layout(matrix(c(1, 2), nrow = 1), widths = c(3.5, 1))
+
+# PCA plot
+par(mar = c(5, 4, 4, 2))
+plot(pca_result3$li[,1:2], 
+     col = pop_colors, pch = 19, 
+     xlab = "PC1", ylab = "PC2", 
+     main = "Combined Catch Basin Vs Aboveground PCA")
+
+# Legend panel
+par(mar = c(5, 1, 4, 1))
+plot.new()
+legend("center", legend = names(site_colors), 
+       col = site_colors, pch = 19, 
+       cex = 0.8, title = "Populations")
+
+
+# var_explained <- pca_result3$eig / sum(pca_result3$eig) * 100
+# xlab = paste0("PC1 (", round(var_explained[1], 1), "%)")
+# ylab = paste0("PC2 (", round(var_explained[2], 1), "%)")
+
+
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# --- Prepare PCA scores ---
+pca_scores <- as.data.frame(pca_result3$li[, 1:2])
+pca_scores$Individual <- rownames(pca_scores)
+pca_scores$Population <- as.character(pop(genind_obj))
+
+# --- Define colors ---
+pop_names <- unique(pca_scores$Population)
+mycols <- c("#32004B","#0398E5","#FE6400","#0C650A","#98184B","#FDB0B0",
+            "#FE004B","#319732","#FC9500","#836C2A","#E5FE01","#6B09AA", 
+            "#4106F7","#ABDDA4","#298DEF","#BABA36","#FED790","#FE6804", 
+            "red","purple","pink","grey","blue","green","gold")  
+
+color_map <- setNames(rep(mycols, length.out = length(pop_names)), pop_names)
+
+# --- Plot PCA ---
+ggplot(pca_scores, aes(x = Axis1, y = Axis2, color = Population)) +
+  geom_point(size = 3, alpha = 0.8, shape = 16) +  # all points as circles
+  scale_color_manual(values = color_map) +
+  labs(title = "Combined Catch Basin Vs Aboveground PCA",
+       x = "PC1",
+       y = "PC2") +
+  theme_minimal(base_size = 14) +
+  theme(legend.title = element_text(size = 12),
+        legend.text = element_text(size = 10),
+        legend.key.size = unit(0.6, "cm"))
+
+```
+
+```{r}
+# identifying the outlier points
+
+# Compute distances
+dist_from_center <- sqrt(pca_result3$li[,1]^2 + pca_result3$li[,2]^2)
+
+# Set threshold: mean + 2*SD
+threshold <- mean(dist_from_center) + 2*sd(dist_from_center)
+
+# Get all outliers
+outliers_idx <- which(dist_from_center > threshold)
+
+# Get names
+outlier_names <- rownames(pca_result3$li)[outliers_idx]
+outlier_names
+
+```
+
+
+
