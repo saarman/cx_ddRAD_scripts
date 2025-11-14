@@ -792,3 +792,13 @@ Stacks summary statistics saved in: /uufs/chpc.utah.edu/common/home/u1055819/saa
 
 
 ok 9b now!
+11/14/2025
+
+not working so doing some digging - it looks like 9a never creates the SUMMARY_OUT in the code. so maybe the input for 9b should be 
+ok i changed the input to the same input from the same 9a and it worked! each code does different things so i think its right to use the same file to have full summary ouputs...? i guess we will find out
+
+more info here slurm-8458870.out
+Total genotyping rate is 0.854648.
+1418 variants and 146 people pass filters and QC.
+
+*now bringing files back into R using same code to make a PCA plot :)
