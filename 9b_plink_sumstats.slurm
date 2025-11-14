@@ -21,7 +21,7 @@ module load plink/1.90
 filter_include="g70m70g20"             # NOTE: This is where you choose which filtered output from geno/mind/plink you will use going forward
 plate_name="cx_ddRAD_combined2-3"      # NOTE: This is where you choose which plate/root name of file
 POPMAP="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_scripts/cx_popmapcombined-fixed11-12.txt"
-IN_FILE="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/${plate_name}_${filter_include}_finalsummary"
+IN_FILE="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/${plate_name}_${filter_include}_ABfiltered.vcf"
 OUT_PREFIX="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/${plate_name}_${filter_include}"
 OUT_PATH="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/"                                             
 SUMMARY_OUT="/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_filtered/${plate_name}_${filter_include}_final_plinkstatsum"
