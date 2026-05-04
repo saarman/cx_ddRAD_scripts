@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --partition=saarman-np
 #SBATCH --account=saarman-np
-#SBATCH --time=300:00
-#SBATCH --mem=4G
+#SBATCH --time=48:00:00
+#SBATCH --mem=64G
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=2
 #SBATCH --job-name="prep_ddrad"
