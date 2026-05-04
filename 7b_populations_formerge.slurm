@@ -1,15 +1,17 @@
 #!/bin/bash
-#SBATCH --partition=saarman-shared-np   
+#SBATCH --partition=saarman-np
 #SBATCH --account=saarman-np
-#SBATCH --time=24:00:00
-#SBATCH --mem=24576
+#SBATCH --time=300:00
+#SBATCH --mem=4G
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=16
-#SBATCH --job-name="stacks_formerge"
+#SBATCH --cpus-per-task=2
+#SBATCH --job-name="prep_ddrad"
 #SBATCH --mail-user=emily.calhoun@usu.edu
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
+
+
 
 module load stacks/2.64
 
