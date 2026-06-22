@@ -96,14 +96,13 @@ Reference genome: Cpip29_nodeb_gfill_mito.fasta (unpublished, stored on CHPC)
 | bcftools AB filter | 1,418 | 146 |
 | Final dataset | 1,418 | 146 |
 
-## Known issues / decisions
+## Known issues / limitations
 - Baseline genotyping rate of 38.8% reflects low ddRAD library quality
   across some samples, not overly aggressive filtering
 - --geno 0.2 (requiring 80% completeness) was the major SNP attrition step
-- trap type confounding with habitat discussed separately in Chapter 1 notes
-- Trap type included as random effect in GAM models
 - Reference genome Cpip29_nodeb_gfill_mito.fasta is unpublished —
   citation needed before manuscript submission
+- Poor quality due to issues with library prep, sequencing, etc. 
 
 ## Files to cite
 - Peterson et al. 2012 (ddRAD protocol)
