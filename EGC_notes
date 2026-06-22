@@ -22,13 +22,21 @@ Reference genome: Cpip29_nodeb_gfill_mito.fasta (unpublished, stored on CHPC)
 
 ## Pipeline steps
 
-### 1. ref_map.pl (6a_refmap.slurm)
+### 1. process rad tags 
+### 2. FASTQC
+### 3. MULTIQC
+### 4. download refs 
+### 4b. BWAmem index refs
+### 5. BWAmem align
+### 6. BWA flagstat
+
+### 6b. ref_map.pl (6a_refmap.slurm)
 - Aligns RAD reads to reference genome and builds locus catalog
 - Input: BAM files in cx_ddRAD_bwa/
 - Output: Stacks catalog in cx_ddRAD_stacks_filtered/
 - Confirmed complete: ref_map.log present in output directory
 
-### 2. populations - permissive export (6b_popmap.slurm)
+### populations - permissive export (6b_popmap.slurm)
 - Permissive first-pass export for downstream filtering
 - Filters: -p 1, -r 0.25
 - Output formats: VCF, PLINK
@@ -36,13 +44,13 @@ Reference genome: Cpip29_nodeb_gfill_mito.fasta (unpublished, stored on CHPC)
 - Output: 34,018 SNPs → populations.snps.vcf
 - Output directory: cx_ddRAD_populations_output/
 
-### 3. populations - for merge (separate script)
+### populations - for merge (separate script)
 - Second populations run with even more permissive filters for WGS+ddRAD merge
 - Filters: -p 1, -r 0.10, no --write-random-snp, VCF only
 - Output directory: cx_ddRAD_populations_formerge/
 - NOTE: This dataset was ultimately not used in final analyses
 
-### 4. PLINK iterative missing data filtering (7a_plink_filter.slurm)
+### 7. PLINK iterative missing data filtering (7a_plink_filter.slurm)
 - Three filtering strategies run in parallel for comparison
 - Chose g70m70g20 as final dataset
 - Baseline genotyping rate: 38.8% (191 samples) — reflects low library quality
@@ -53,14 +61,14 @@ Reference genome: Cpip29_nodeb_gfill_mito.fasta (unpublished, stored on CHPC)
 - NOTE: --geno threshold is MISSINGNESS allowed, not completeness required
   (opposite of Stacks -r convention)
 
-### 5. vcftools site/individual extraction (7b_vcftools_filter.slurm)
+### vcftools site/individual extraction (7b_vcftools_filter.slurm)
 - Extracts passing sites and individuals from original VCF
 - Uses .map file positions and .nosex individual list from PLINK g70m70g20 output
 - Goes back to original VCF to preserve full VCF format
 - Input: populations.snps.vcf + g70m70g20 passing sites/individuals
 - Output: cx_ddRAD_combined2-3_g70m70g20_filtered.recode.vcf (1,636 SNPs)
 
-### 6. bcftools allele balance filter (8bfinal_bcftoolsABfilter.slurm)
+### 8. bcftools allele balance filter (8bfinal_bcftoolsABfilter.slurm)
 - Replaces earlier 8b_bcftools.slurm (deleted) which lacked locus-level AB filter
 - Filters applied:
   - QUAL >= 30
@@ -72,13 +80,13 @@ Reference genome: Cpip29_nodeb_gfill_mito.fasta (unpublished, stored on CHPC)
 - Input: cx_ddRAD_combined2-3_g70m70g20_filtered.recode.vcf (1,636 SNPs)
 - Output: cx_ddRAD_combined2-3_g70m70g20_ABfiltered.vcf (1,418 SNPs)
 
-### 7. populations summary statistics (9a_stacks_sumstats.slurm)
+### 9. populations summary statistics (9a_stacks_sumstats.slurm)
 - Runs Stacks populations on final filtered VCF using -V flag (VCF input, not catalog)
 - No additional filtering applied
 - Output: population-level summary stats + final VCF + PLINK files
 - Output directory: cx_ddRAD_filtered/
 
-### 8. PLINK final QC summary (10_plink_finalstats.slurm)
+### PLINK final QC summary (9b_plink_finalstats.slurm)
 - Computes QC metrics on final 1,418 SNP dataset
 - Metrics: allele frequencies, missingness, heterozygosity, HWE, F-statistics
 - Final genotyping rate: 85.5% across 146 individuals
