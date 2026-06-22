@@ -1,17 +1,121 @@
-11/11/24 Trying Code 
+11/11/24 
 
--Need to run every time: Pull any changes from Github
+-Need to run every time to pull any changes from Github
 cd /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts/
 git pull
 
+# ddRAD Bioinformatics Pipeline Notes
+# Updated: June 2026
 
-* fatal: detected dubious ownership in repository at '/uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts'
-To add an exception for this directory, call:
-        git config --global --add safe.directory /uufs/chpc.utah.edu/common/home/saarman-group1/cx_ddRAD_scripts
-[u1055819@frisco1 cx_ddRAD_scripts]$ 
+## Overview
+Reference-based ddRAD pipeline for Culex pipiens complex population genetics.
+191 samples input, 146 samples retained, 1,418 final SNPs.
+Reference genome: Cpip29_nodeb_gfill_mito.fasta (unpublished, stored on CHPC)
+
+## Software versions
+- Stacks v2.64
+- BWA-MEM2 v2.2.1
+- PLINK v1.90
+- vcftools [version TBD]
+- bcftools [version TBD]
+- samtools v1.16
+
+## Pipeline steps
+
+### 1. ref_map.pl (6a_refmap.slurm)
+- Aligns RAD reads to reference genome and builds locus catalog
+- Input: BAM files in cx_ddRAD_bwa/
+- Output: Stacks catalog in cx_ddRAD_stacks_filtered/
+- Confirmed complete: ref_map.log present in output directory
+
+### 2. populations - permissive export (6b_popmap.slurm)
+- Permissive first-pass export for downstream filtering
+- Filters: -p 1, -r 0.25
+- Output formats: VCF, PLINK
+- Input: 191 samples, 1 population
+- Output: 34,018 SNPs → populations.snps.vcf
+- Output directory: cx_ddRAD_populations_output/
+
+### 3. populations - for merge (separate script)
+- Second populations run with even more permissive filters for WGS+ddRAD merge
+- Filters: -p 1, -r 0.10, no --write-random-snp, VCF only
+- Output directory: cx_ddRAD_populations_formerge/
+- NOTE: This dataset was ultimately not used in final analyses
+
+### 4. PLINK iterative missing data filtering (7a_plink_filter.slurm)
+- Three filtering strategies run in parallel for comparison
+- Chose g70m70g20 as final dataset
+- Baseline genotyping rate: 38.8% (191 samples) — reflects low library quality
+- Step 3a --geno 0.7: 34,018 → 23,762 SNPs, 191 individuals
+- Step 3b --mind 0.7: 23,762 SNPs, 191 → 146 individuals (45 removed)
+- Step 3c --geno 0.2: 23,762 → 1,635 SNPs, 146 individuals
+- Genotyping rate after individual removal: 56.1%
+- NOTE: --geno threshold is MISSINGNESS allowed, not completeness required
+  (opposite of Stacks -r convention)
+
+### 5. vcftools site/individual extraction (7b_vcftools_filter.slurm)
+- Extracts passing sites and individuals from original VCF
+- Uses .map file positions and .nosex individual list from PLINK g70m70g20 output
+- Goes back to original VCF to preserve full VCF format
+- Input: populations.snps.vcf + g70m70g20 passing sites/individuals
+- Output: cx_ddRAD_combined2-3_g70m70g20_filtered.recode.vcf (1,636 SNPs)
+
+### 6. bcftools allele balance filter (8bfinal_bcftoolsABfilter.slurm)
+- Replaces earlier 8b_bcftools.slurm (deleted) which lacked locus-level AB filter
+- Filters applied:
+  - QUAL >= 30
+  - 10 <= INFO/DP <= 100
+  - Biallelic SNPs only (-m2 -M2)
+  - MAF >= 0.01
+  - Per-genotype AB: FORMAT/AD[1]/(AD[0]+AD[1]) between 0.3 and 0.7
+  - Per-locus average AB across heterozygous individuals: 0.3-0.7 (awk step)
+- Input: cx_ddRAD_combined2-3_g70m70g20_filtered.recode.vcf (1,636 SNPs)
+- Output: cx_ddRAD_combined2-3_g70m70g20_ABfiltered.vcf (1,418 SNPs)
+
+### 7. populations summary statistics (9a_stacks_sumstats.slurm)
+- Runs Stacks populations on final filtered VCF using -V flag (VCF input, not catalog)
+- No additional filtering applied
+- Output: population-level summary stats + final VCF + PLINK files
+- Output directory: cx_ddRAD_filtered/
+
+### 8. PLINK final QC summary (10_plink_finalstats.slurm)
+- Computes QC metrics on final 1,418 SNP dataset
+- Metrics: allele frequencies, missingness, heterozygosity, HWE, F-statistics
+- Final genotyping rate: 85.5% across 146 individuals
+- Output: combined TSV summary in cx_ddRAD_filtered/
+
+## Key numbers summary
+| Step | SNPs | Individuals |
+|---|---|---|
+| ref_map populations (no filter) | 1,465,867 | 191 |
+| populations (-r 0.25) | 34,018 | 191 |
+| PLINK --geno 0.7 | 23,762 | 191 |
+| PLINK --mind 0.7 | 23,762 | 146 |
+| PLINK --geno 0.2 | 1,635 | 146 |
+| vcftools extraction | 1,636 | 146 |
+| bcftools AB filter | 1,418 | 146 |
+| Final dataset | 1,418 | 146 |
+
+## Known issues / decisions
+- Baseline genotyping rate of 38.8% reflects low ddRAD library quality
+  across some samples, not overly aggressive filtering
+- --geno 0.2 (requiring 80% completeness) was the major SNP attrition step
+- trap type confounding with habitat discussed separately in Chapter 1 notes
+- Trap type included as random effect in GAM models
+- Reference genome Cpip29_nodeb_gfill_mito.fasta is unpublished —
+  citation needed before manuscript submission
+
+## Files to cite
+- Peterson et al. 2012 (ddRAD protocol)
+- Stacks: Catchen et al. 2013, Rochette et al. 2019
+- BWA-MEM2: Vasimuddin et al. 2019
+- PLINK: Purcell et al. 2007
+- [Reference genome citation TBD]
 
 
-*Can't pull from github so the slurm files I have in CHPC are older ... I could manually change them in interactive session?
+
+
+
 
 
 12/6/24
