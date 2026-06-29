@@ -51,7 +51,7 @@ echo "$(date)"
 bcftools view -O z -o ${IN_VCF}.gz ${IN_VCF}
 bcftools index ${IN_VCF}.gz
 
-# Step 2: QUAL, DP, biallelic SNP filter
+# Step 2: QUAL, DP, biallelic SNP, MAF filter
 bcftools view -m2 -M2 -v snps ${IN_VCF}.gz -Ou | \
 bcftools filter \
     -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' \
@@ -59,26 +59,26 @@ bcftools filter \
 bcftools +fill-tags -- -t MAF | \
 bcftools filter \
     -i 'INFO/MAF >= 0.01' \
-    -O z -o ${OUTDIR}/ddrad_qualDP_filtered.vcf.gz
+    -O z -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_qualDP.vcf.gz
 
-bcftools index ${OUTDIR}/ddrad_qualDP_filtered.vcf.gz
+bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_qualDP.vcf.gz
 
-# Step 3: Soft-tag het calls with bad allele balance (0.3-0.7 matches original)
+# Step 3: Soft-tag het calls with bad allele balance
 bcftools filter \
     --soft-filter ABfilter \
     --exclude 'GT=="het" && (AD[0]/(AD[0]+AD[1]) < 0.3 || AD[0]/(AD[0]+AD[1]) > 0.7)' \
     -O z \
-    -o ${OUTDIR}/ddrad_ABtagged.vcf.gz \
-    ${OUTDIR}/ddrad_qualDP_filtered.vcf.gz
+    -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_ABtagged.vcf.gz \
+    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_qualDP.vcf.gz
 
-bcftools index ${OUTDIR}/ddrad_ABtagged.vcf.gz
+bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_ABtagged.vcf.gz
 
 # Step 4: Keep only PASS sites
 bcftools view \
     -f PASS \
     -O z \
     -o ${OUT_FINAL} \
-    ${OUTDIR}/ddrad_ABtagged.vcf.gz
+    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_ABtagged.vcf.gz
 
 bcftools index ${OUT_FINAL}
 
@@ -90,3 +90,6 @@ echo "Final SNPs:        ${NSNP}"
 echo "Final individuals: ${NIND}"
 echo "$(date)"
 echo "=============================="
+echo ""
+echo "Final dataset: ${OUT_FINAL}"
+echo "Ready for PCA and downstream population genomics in R"
