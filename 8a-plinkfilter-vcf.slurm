@@ -76,12 +76,10 @@ echo "SNPs after PLINK filter: ${NSNP}"
 echo "Individuals:             ${NIND}"
 echo "============================="
 
+
+
 # ============================================================
-# PART 2: CONVERT BACK TO VCF (was 8a2)
-#
-# Extracts the PLINK-passing sites and individuals back from
-# the original VCF to preserve all INFO/FORMAT fields needed
-# for the AB filter in 8b (especially AD fields)
+# PART 2: CONVERT PLINK OUTPUT BACK TO VCF (was 8a2)
 # ============================================================
 
 echo ""
@@ -89,22 +87,21 @@ echo "=== PART 2: Convert PLINK output back to VCF ==="
 echo "$(date)"
 
 # Extract passing site positions from PLINK .map file
-awk '{print $1 "\t" $4}' ${IN_FILE}_g70m70g50.map > ${IN_FILE}_g70m70g50.pos
+awk '{print $1 "\t" $4}' ${OUTDIR}/${IN_FILE}_g70m70g50.map > ${OUTDIR}/${IN_FILE}_g70m70g50.pos
 
-# Extract passing individual IDs from PLINK .nosex file
-# (nosex file lists all individuals remaining after filtering)
-awk '{print $1}' ${IN_FILE}_g70m70g50.fam > ${IN_FILE}_g70m70g50.keep
+# Extract passing individual IDs from PLINK .fam file (need BOTH columns for vcftools)
+awk '{print $1 "\t" $2}' ${OUTDIR}/${IN_FILE}_g70m70g50.fam > ${OUTDIR}/${IN_FILE}_g70m70g50.keep
 
 vcftools --vcf ${IN_VCF} \
-    --positions ${IN_FILE}_g70m70g50.pos \
-    --keep ${IN_FILE}_g70m70g50.keep \
+    --positions ${OUTDIR}/${IN_FILE}_g70m70g50.pos \
+    --keep ${OUTDIR}/${IN_FILE}_g70m70g50.keep \
     --recode --recode-INFO-all \
-    --out ${IN_FILE}_g70m70g50_filtered
+    --out ${OUTDIR}/${IN_FILE}_g70m70g50_filtered
 
 echo ""
 echo "=== FINAL VCF SUMMARY ==="
-NSNP_VCF=$(grep -v "^#" ${IN_FILE}_g70m70g50_filtered.recode.vcf | wc -l)
-NIND_VCF=$(grep "^#CHROM" ${IN_FILE}_g70m70g50_filtered.recode.vcf | tr '\t' '\n' | tail -n +10 | wc -l)
+NSNP_VCF=$(grep -v "^#" ${OUTDIR}/${IN_FILE}_g70m70g50_filtered.recode.vcf | wc -l)
+NIND_VCF=$(grep "^#CHROM" ${OUTDIR}/${IN_FILE}_g70m70g50_filtered.recode.vcf | tr '\t' '\n' | tail -n +10 | wc -l)
 echo "SNPs in final VCF:  ${NSNP_VCF}"
 echo "Individuals in VCF: ${NIND_VCF}"
 echo "========================="
