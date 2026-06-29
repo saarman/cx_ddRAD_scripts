@@ -8,6 +8,10 @@
 #SBATCH --mem=8G
 #SBATCH --account=saarman-np
 #SBATCH --partition=saarman-shared-np
+#SBATCH --mail-user=emily.calhoun@usu.edu   # email address
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
 
 module load bcftools
 
