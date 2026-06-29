@@ -8,7 +8,10 @@
 #SBATCH --mem=16G
 #SBATCH --account=saarman-np
 #SBATCH --partition=saarman-np
-#SBATCH --mail=emily.calhoun@usu.edu
+#SBATCH --mail-user=emily.calhoun@usu.edu   # email address
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
 
 module load plink
 module load vcftools
