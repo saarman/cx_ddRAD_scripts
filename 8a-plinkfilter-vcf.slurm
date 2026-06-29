@@ -20,18 +20,18 @@ module load vcftools
 IN_VCF="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_populations_output/populations.snps.vcf"
 OUTDIR="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered"
 IN_FILE="cx_ddRAD_combined2-3"
-POPMAP="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_scripts/cx_popmapcombined-fixed11-12.txt"
 
 mkdir -p ${OUTDIR}
 cd ${OUTDIR}
 
 # ============================================================
-# PART 1: ITERATIVE PLINK MISSINGNESS FILTER (was 8a1)
+# PART 1: ITERATIVE PLINK MISSINGNESS FILTER
 #
 # --geno 0.7  : drop loci missing in >70% of individuals
 # --mind 0.7  : drop individuals missing >70% of loci
-# --geno 0.5  : drop loci missing in >50% of individuals
-#               (replaces original --geno 0.2 which dropped 93% of SNPs)
+# --geno 0.6  : drop loci missing in >40% of individuals
+#               (loosened from 0.5 to recover more SNPs,
+#                expected output: ~18,000-22,000 SNPs)
 # ============================================================
 
 echo "=== PART 1: PLINK iterative missingness filter ==="
@@ -58,28 +58,29 @@ plink --file ${IN_FILE}_g70 \
       --double-id --allow-extra-chr \
       --recode --out ${IN_FILE}_g70m70
 
-# Pass 3: drop loci missing in >50% of individuals
+# Pass 3: drop loci missing in >40% of individuals (--geno 0.6)
 plink --file ${IN_FILE}_g70m70 \
-      --geno 0.5 \
+      --geno 0.6 \
       --double-id --allow-extra-chr \
-      --recode --out ${IN_FILE}_g70m70g50
+      --recode --out ${IN_FILE}_g70m70g60
 
 # Missingness stats on final PLINK output
-plink --file ${IN_FILE}_g70m70g50 \
+plink --file ${IN_FILE}_g70m70g60 \
       --allow-extra-chr --missing
 
 echo ""
 echo "=== PLINK FILTER SUMMARY ==="
-NSNP=$(wc -l < ${IN_FILE}_g70m70g50.map)
-NIND=$(wc -l < ${IN_FILE}_g70m70g50.ped)
+NSNP=$(wc -l < ${OUTDIR}/${IN_FILE}_g70m70g60.map)
+NIND=$(wc -l < ${OUTDIR}/${IN_FILE}_g70m70g60.fam)
 echo "SNPs after PLINK filter: ${NSNP}"
 echo "Individuals:             ${NIND}"
 echo "============================="
 
-
-
 # ============================================================
-# PART 2: CONVERT PLINK OUTPUT BACK TO VCF (was 8a2)
+# PART 2: CONVERT PLINK OUTPUT BACK TO VCF
+#
+# Goes back to original VCF to preserve AD fields needed
+# for AB filter in 8b. PLINK output strips these.
 # ============================================================
 
 echo ""
@@ -87,25 +88,25 @@ echo "=== PART 2: Convert PLINK output back to VCF ==="
 echo "$(date)"
 
 # Extract passing site positions from PLINK .map file
-awk '{print $1 "\t" $4}' ${OUTDIR}/${IN_FILE}_g70m70g50.map > ${OUTDIR}/${IN_FILE}_g70m70g50.pos
+awk '{print $1 "\t" $4}' ${OUTDIR}/${IN_FILE}_g70m70g60.map > ${OUTDIR}/${IN_FILE}_g70m70g60.pos
 
-# Extract passing individual IDs from PLINK .fam file (need BOTH columns for vcftools)
-awk '{print $1 "\t" $2}' ${OUTDIR}/${IN_FILE}_g70m70g50.fam > ${OUTDIR}/${IN_FILE}_g70m70g50.keep
+# Extract passing individual IDs — needs TWO columns (family ID + individual ID)
+awk '{print $1 "\t" $2}' ${OUTDIR}/${IN_FILE}_g70m70g60.fam > ${OUTDIR}/${IN_FILE}_g70m70g60.keep
 
 vcftools --vcf ${IN_VCF} \
-    --positions ${OUTDIR}/${IN_FILE}_g70m70g50.pos \
-    --keep ${OUTDIR}/${IN_FILE}_g70m70g50.keep \
+    --positions ${OUTDIR}/${IN_FILE}_g70m70g60.pos \
+    --keep ${OUTDIR}/${IN_FILE}_g70m70g60.keep \
     --recode --recode-INFO-all \
-    --out ${OUTDIR}/${IN_FILE}_g70m70g50_filtered
+    --out ${OUTDIR}/${IN_FILE}_g70m70g60_filtered
 
 echo ""
 echo "=== FINAL VCF SUMMARY ==="
-NSNP_VCF=$(grep -v "^#" ${OUTDIR}/${IN_FILE}_g70m70g50_filtered.recode.vcf | wc -l)
-NIND_VCF=$(grep "^#CHROM" ${OUTDIR}/${IN_FILE}_g70m70g50_filtered.recode.vcf | tr '\t' '\n' | tail -n +10 | wc -l)
+NSNP_VCF=$(grep -v "^#" ${OUTDIR}/${IN_FILE}_g70m70g60_filtered.recode.vcf | wc -l)
+NIND_VCF=$(grep "^#CHROM" ${OUTDIR}/${IN_FILE}_g70m70g60_filtered.recode.vcf | tr '\t' '\n' | tail -n +10 | wc -l)
 echo "SNPs in final VCF:  ${NSNP_VCF}"
 echo "Individuals in VCF: ${NIND_VCF}"
 echo "========================="
 echo ""
-echo "Output VCF: ${OUTDIR}/${IN_FILE}_g70m70g50_filtered.recode.vcf"
+echo "Output VCF: ${OUTDIR}/${IN_FILE}_g70m70g60_filtered.recode.vcf"
 echo "Next step: run 8b_bcftools_ABfilter.slurm on this file"
 echo "$(date)"
