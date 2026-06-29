@@ -16,9 +16,9 @@
 module load bcftools
 
 # --- Paths ---
-IN_VCF="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/ddrad_filtered.vcf"
+IN_VCF="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g50_filtered.recode.vcf"
 OUTDIR="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered"
-OUT_FINAL="${OUTDIR}/ddrad_final.vcf.gz"
+OUT_FINAL="${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_ABfiltered.vcf.gz"
 
 mkdir -p ${OUTDIR}
 
