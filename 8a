@@ -8,6 +8,7 @@
 #SBATCH --mem=16G
 #SBATCH --account=saarman-np
 #SBATCH --partition=saarman-np
+#SBATCH --mail=emily.calhoun@usu.edu
 
 module load vcftools
 
