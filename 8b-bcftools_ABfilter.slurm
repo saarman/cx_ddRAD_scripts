@@ -31,19 +31,19 @@ bcftools sort ${IN_VCF} -O z -o ${IN_VCF}.gz
 bcftools index ${IN_VCF}.gz
 
 # ============================================================
-# UPDATED FILTER RATIONALE
-# Stacks does not populate site-level QUAL or INFO/DP (both
-# come back as missing "."). Switched to FORMAT-level fields
-# which ARE populated:
+# FILTER RATIONALE
+# Stacks does not populate site-level QUAL or INFO/DP, so we
+# use FORMAT-level fields instead.
 #
 # FORMAT/GQ >= 20  : genotype quality threshold per call
-#                     (replaces QUAL >= 30; GQ20 = standard
-#                     "good confidence" threshold)
 # FORMAT/DP >= 3   : minimum read depth per genotype call
-#                     (lenient since RAD coverage is naturally
-#                     more variable than WGS; replaces DP 10-100)
-# MAF >= 0.01      : unchanged, removes near-fixed loci
-# AB 0.3-0.7       : unchanged, uses FORMAT/AD as before
+# MAF >= 0.01      : removes near-fixed loci
+#
+# AB filter: uses AVERAGE allele balance across all het
+# individuals at a site (matches original 8bfinal script's
+# logic), rather than excluding a site if any single het
+# genotype falls outside range. This avoids over-penalizing
+# sites for one low-coverage sample's noisy AB.
 # ============================================================
 
 # Step 1: Biallelic SNPs, MAF filter
@@ -65,10 +65,10 @@ bcftools filter \
 
 bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_GQDP.vcf.gz
 
-# Step 3: Soft-tag het calls with bad allele balance
+# Step 3: Soft-tag sites with average het AB outside 0.3-0.7
 bcftools filter \
     --soft-filter ABfilter \
-    --exclude 'GT=="het" && (FORMAT/AD[*:0]/(FORMAT/AD[*:0]+FORMAT/AD[*:1]) < 0.3 || FORMAT/AD[*:0]/(FORMAT/AD[*:0]+FORMAT/AD[*:1]) > 0.7)' \
+    --exclude 'AVG(FORMAT/AD[*:0]/(FORMAT/AD[*:0]+FORMAT/AD[*:1])) < 0.3 || AVG(FORMAT/AD[*:0]/(FORMAT/AD[*:0]+FORMAT/AD[*:1])) > 0.7' \
     -O z \
     -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz \
     ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_GQDP.vcf.gz
