@@ -16,9 +16,9 @@
 module load bcftools
 
 # --- Paths ---
-IN_VCF="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g50_filtered.recode.vcf"
+IN_VCF="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g60_filtered.recode.vcf"
 OUTDIR="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered"
-OUT_FINAL="${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_ABfiltered.vcf.gz"
+OUT_FINAL="${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABfiltered.vcf.gz"
 
 mkdir -p ${OUTDIR}
 
@@ -59,26 +59,26 @@ bcftools filter \
 bcftools +fill-tags -- -t MAF | \
 bcftools filter \
     -i 'INFO/MAF >= 0.01' \
-    -O z -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_qualDP.vcf.gz
+    -O z -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_qualDP.vcf.gz
 
-bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_qualDP.vcf.gz
+bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_qualDP.vcf.gz
 
 # Step 3: Soft-tag het calls with bad allele balance
 bcftools filter \
     --soft-filter ABfilter \
     --exclude 'GT=="het" && (AD[0]/(AD[0]+AD[1]) < 0.3 || AD[0]/(AD[0]+AD[1]) > 0.7)' \
     -O z \
-    -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_ABtagged.vcf.gz \
-    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_qualDP.vcf.gz
+    -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz \
+    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_qualDP.vcf.gz
 
-bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_ABtagged.vcf.gz
+bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz
 
 # Step 4: Keep only PASS sites
 bcftools view \
     -f PASS \
     -O z \
     -o ${OUT_FINAL} \
-    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g50_ABtagged.vcf.gz
+    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz
 
 bcftools index ${OUT_FINAL}
 
