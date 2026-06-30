@@ -7,7 +7,7 @@
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8G
 #SBATCH --account=saarman-np
-#SBATCH --partition=saarman-shared-np
+#SBATCH --partition=saarman-np
 #SBATCH --mail-user=emily.calhoun@usu.edu   # email address
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
