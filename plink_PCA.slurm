@@ -40,7 +40,7 @@ plink --bfile ${OUT_PREFIX} \
       --double-id \
       --allow-extra-chr \
       --set-missing-var-ids @:# \
-      --indep-pairwise 50 10 0.1 \
+      --indep-pairwise 50 10 0.3 \
       --out ${OUT_PREFIX}
 
 # Step 3: Run PCA on pruned SNPs
