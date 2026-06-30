@@ -16,73 +16,55 @@
 module load bcftools
 
 # --- Paths ---
-IN_VCF="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered/cx_ddRAD_combined2-3_g70m70g60_filtered.recode.vcf"
 OUTDIR="/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_filtered"
+GQDP_VCF="${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_GQDP.vcf.gz"   # already exists from last run
 OUT_FINAL="${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABfiltered.vcf.gz"
 
-mkdir -p ${OUTDIR}
+cd ${OUTDIR}
 
-echo "Starting bcftools AB filter..."
-echo "Input: ${IN_VCF}"
+echo "Starting AB filter (awk-based, average across hets only)..."
 echo "$(date)"
 
-# Step 0: Sort, compress, index
-bcftools sort ${IN_VCF} -O z -o ${IN_VCF}.gz
-bcftools index ${IN_VCF}.gz
+# Step 1: Extract CHROM, POS, GT, AD per sample
+bcftools query -f '%CHROM\t%POS[\t%GT\t%AD]\n' ${GQDP_VCF} > snp_data.txt
 
-# ============================================================
-# FILTER RATIONALE
-# Stacks does not populate site-level QUAL or INFO/DP, so we
-# use FORMAT-level fields instead.
-#
-# FORMAT/GQ >= 20  : genotype quality threshold per call
-# FORMAT/DP >= 3   : minimum read depth per genotype call
-# MAF >= 0.01      : removes near-fixed loci
-#
-# AB filter: uses AVERAGE allele balance across all het
-# individuals at a site (matches original 8bfinal script's
-# logic), rather than excluding a site if any single het
-# genotype falls outside range. This avoids over-penalizing
-# sites for one low-coverage sample's noisy AB.
-# ============================================================
+# Step 2: Compute average AB across heterozygous calls only, per site
+# Keep sites where avg AB (alt/(ref+alt)) falls between 0.3-0.7
+awk '
+BEGIN { OFS="\t" }
+{
+    chrom=$1; pos=$2;
+    sum_ab=0; count_het=0;
+    for (i=3; i<=NF; i+=2) {
+        gt=$i; ad=$(i+1);
+        if (gt == "0/1" || gt == "1/0" || gt == "0|1" || gt == "1|0") {
+            split(ad, depths, ",");
+            if (depths[1] != "." && depths[2] != "." && (depths[1]+depths[2]) > 0) {
+                ab = depths[2] / (depths[1] + depths[2]);
+                sum_ab += ab;
+                count_het++;
+            }
+        }
+    }
+    if (count_het > 0) {
+        avg_ab = sum_ab / count_het;
+        if (avg_ab >= 0.3 && avg_ab <= 0.7) {
+            print chrom, pos;
+        }
+    } else {
+        # No het calls at this site - keep it (nothing to filter on)
+        print chrom, pos;
+    }
+}' snp_data.txt > snps_to_keep.txt
 
-# Step 1: Biallelic SNPs, MAF filter
-bcftools view -m2 -M2 -v snps ${IN_VCF}.gz -Ou | \
-bcftools +fill-tags -- -t MAF | \
-bcftools filter \
-    -i 'INFO/MAF >= 0.01' \
-    -O z -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_maf.vcf.gz
+echo "Sites to keep: $(wc -l < snps_to_keep.txt)"
 
-bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_maf.vcf.gz
-
-# Step 2: Soft-tag genotypes failing GQ/DP thresholds, set to missing
-bcftools filter \
-    -S . \
-    -e 'FORMAT/GQ < 20 | FORMAT/DP < 3' \
-    -O z \
-    -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_GQDP.vcf.gz \
-    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_maf.vcf.gz
-
-bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_GQDP.vcf.gz
-
-# Step 3: Soft-tag sites with average het AB outside 0.3-0.7
-bcftools filter \
-    --soft-filter ABfilter \
-    --exclude 'AVG(FORMAT/AD[*:0]/(FORMAT/AD[*:0]+FORMAT/AD[*:1])) < 0.3 || AVG(FORMAT/AD[*:0]/(FORMAT/AD[*:0]+FORMAT/AD[*:1])) > 0.7' \
-    -O z \
-    -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz \
-    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_GQDP.vcf.gz
-
-bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz
-
-# Step 4: Keep only PASS sites
-bcftools view \
-    -f PASS \
-    -O z \
-    -o ${OUT_FINAL} \
-    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz
-
+# Step 3: Filter VCF to retain only these sites
+bcftools view -T snps_to_keep.txt ${GQDP_VCF} -O z -o ${OUT_FINAL}
 bcftools index ${OUT_FINAL}
+
+# Cleanup
+rm snp_data.txt snps_to_keep.txt
 
 echo ""
 echo "=== FINAL DATASET SUMMARY ==="
