@@ -22,33 +22,12 @@ OUT_FINAL="${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABfiltered.vcf.gz"
 
 mkdir -p ${OUTDIR}
 
-# ============================================================
-# FILTER RATIONALE (matching original 8bfinal logic, simplified)
-#
-# QUAL >= 30 & DP 10-100 : matches Norah's original thresholds
-#                           DP cap of 100 removes likely paralogous
-#                           loci with artificially high coverage
-#
-# Biallelic SNPs only     : indels excluded for population genomics
-#                           (PCA, FST, ADMIXTURE all expect SNPs)
-#
-# MAF >= 0.01             : matches original; removes near-fixed loci
-#
-# AB 0.3-0.7              : matches Norah's original threshold exactly
-#                           (original used 0.3/0.7, not 0.2/0.8)
-#                           Applied per-genotype for het calls only
-#
-# Note: original script ran two rounds of AB filtering (per-genotype
-# in step 2 AND per-SNP average in step 6). We apply it once
-# per-genotype which is the more standard approach.
-# ============================================================
-
 echo "Starting bcftools AB filter..."
 echo "Input: ${IN_VCF}"
 echo "$(date)"
 
-# Step 1: Compress and index
-bcftools view -O z -o ${IN_VCF}.gz ${IN_VCF}
+# Step 0: Sort, then compress and index (vcftools output isn't guaranteed sorted)
+bcftools sort ${IN_VCF} -O z -o ${IN_VCF}.gz
 bcftools index ${IN_VCF}.gz
 
 # Step 2: QUAL, DP, biallelic SNP, MAF filter
@@ -63,10 +42,10 @@ bcftools filter \
 
 bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_qualDP.vcf.gz
 
-# Step 3: Soft-tag het calls with bad allele balance
+# Step 3: Soft-tag het calls with bad allele balance (explicit FORMAT/AD to resolve ambiguity)
 bcftools filter \
     --soft-filter ABfilter \
-    --exclude 'GT=="het" && (AD[0]/(AD[0]+AD[1]) < 0.3 || AD[0]/(AD[0]+AD[1]) > 0.7)' \
+    --exclude 'GT=="het" && (FORMAT/AD[0]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.3 || FORMAT/AD[0]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.7)' \
     -O z \
     -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz \
     ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_qualDP.vcf.gz
