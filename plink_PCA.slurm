@@ -2,7 +2,7 @@
 #SBATCH --job-name=plink_PCA
 #SBATCH --output=/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_scripts/logs/plink_PCA_%j.out
 #SBATCH --error=/uufs/chpc.utah.edu/common/home/u1055819/saarman-group/cx_ddRAD_scripts/logs/plink_PCA_%j.err
-#SBATCH --partition=saarman-shared-np   
+#SBATCH --partition=saarman-np   
 #SBATCH --account=saarman-np
 #SBATCH --time=24:00:00   # walltime limit (HH:MM:SS)
 #SBATCH --mem=24576 # memory given in MB
