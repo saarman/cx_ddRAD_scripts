@@ -26,30 +26,52 @@ echo "Starting bcftools AB filter..."
 echo "Input: ${IN_VCF}"
 echo "$(date)"
 
-# Step 0: Sort, then compress and index (vcftools output isn't guaranteed sorted)
+# Step 0: Sort, compress, index
 bcftools sort ${IN_VCF} -O z -o ${IN_VCF}.gz
 bcftools index ${IN_VCF}.gz
 
-# Step 2: QUAL, DP, biallelic SNP, MAF filter
+# ============================================================
+# UPDATED FILTER RATIONALE
+# Stacks does not populate site-level QUAL or INFO/DP (both
+# come back as missing "."). Switched to FORMAT-level fields
+# which ARE populated:
+#
+# FORMAT/GQ >= 20  : genotype quality threshold per call
+#                     (replaces QUAL >= 30; GQ20 = standard
+#                     "good confidence" threshold)
+# FORMAT/DP >= 3   : minimum read depth per genotype call
+#                     (lenient since RAD coverage is naturally
+#                     more variable than WGS; replaces DP 10-100)
+# MAF >= 0.01      : unchanged, removes near-fixed loci
+# AB 0.3-0.7       : unchanged, uses FORMAT/AD as before
+# ============================================================
+
+# Step 1: Biallelic SNPs, MAF filter
 bcftools view -m2 -M2 -v snps ${IN_VCF}.gz -Ou | \
-bcftools filter \
-    -i 'QUAL >= 30 & INFO/DP >= 10 & INFO/DP <= 100' \
-    -Ou | \
 bcftools +fill-tags -- -t MAF | \
 bcftools filter \
     -i 'INFO/MAF >= 0.01' \
-    -O z -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_qualDP.vcf.gz
+    -O z -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_maf.vcf.gz
 
-bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_qualDP.vcf.gz
+bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_maf.vcf.gz
 
-# Step 3: Soft-tag het calls with bad allele balance (explicit FORMAT/AD to resolve ambiguity)
+# Step 2: Soft-tag genotypes failing GQ/DP thresholds, set to missing
+bcftools filter \
+    -S . \
+    -e 'FORMAT/GQ < 20 | FORMAT/DP < 3' \
+    -O z \
+    -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_GQDP.vcf.gz \
+    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_maf.vcf.gz
+
+bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_GQDP.vcf.gz
+
 # Step 3: Soft-tag het calls with bad allele balance
 bcftools filter \
     --soft-filter ABfilter \
     --exclude 'GT=="het" && (FORMAT/AD[*:0]/(FORMAT/AD[*:0]+FORMAT/AD[*:1]) < 0.3 || FORMAT/AD[*:0]/(FORMAT/AD[*:0]+FORMAT/AD[*:1]) > 0.7)' \
     -O z \
     -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz \
-    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_qualDP.vcf.gz
+    ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_GQDP.vcf.gz
 
 bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz
 
