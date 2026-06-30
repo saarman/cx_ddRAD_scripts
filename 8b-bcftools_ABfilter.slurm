@@ -43,9 +43,10 @@ bcftools filter \
 bcftools index ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_qualDP.vcf.gz
 
 # Step 3: Soft-tag het calls with bad allele balance (explicit FORMAT/AD to resolve ambiguity)
+# Step 3: Soft-tag het calls with bad allele balance
 bcftools filter \
     --soft-filter ABfilter \
-    --exclude 'GT=="het" && (FORMAT/AD[0]/(FORMAT/AD[0]+FORMAT/AD[1]) < 0.3 || FORMAT/AD[0]/(FORMAT/AD[0]+FORMAT/AD[1]) > 0.7)' \
+    --exclude 'GT=="het" && (FORMAT/AD[*:0]/(FORMAT/AD[*:0]+FORMAT/AD[*:1]) < 0.3 || FORMAT/AD[*:0]/(FORMAT/AD[*:0]+FORMAT/AD[*:1]) > 0.7)' \
     -O z \
     -o ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_ABtagged.vcf.gz \
     ${OUTDIR}/cx_ddRAD_combined2-3_g70m70g60_qualDP.vcf.gz
