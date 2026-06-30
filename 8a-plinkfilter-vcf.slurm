@@ -90,8 +90,9 @@ echo "$(date)"
 # Extract passing site positions from PLINK .map file
 awk '{print $1 "\t" $4}' ${OUTDIR}/${IN_FILE}_g70m70g60.map > ${OUTDIR}/${IN_FILE}_g70m70g60.pos
 
-# Extract passing individual IDs — needs TWO columns (family ID + individual ID)
-awk '{print $1 "\t" $2}' ${OUTDIR}/${IN_FILE}_g70m70g60.fam > ${OUTDIR}/${IN_FILE}_g70m70g60.keep
+# Extract passing individual IDs from .ped file (cols 1-2), not .fam (doesn't exist with --recode)
+awk '{print $1 "\t" $2}' ${OUTDIR}/${IN_FILE}_g70m70g60.ped > ${OUTDIR}/${IN_FILE}_g70m70g60.keep
+
 
 vcftools --vcf ${IN_VCF} \
     --positions ${OUTDIR}/${IN_FILE}_g70m70g60.pos \
